@@ -239,19 +239,19 @@ target_link_libraries("${ENGINE_NAME}" PUBLIC
 
 #_______________________EXECUTABLE_______________________
 add_executable(${APP_NAME} ${APP_PARAM}
-    "qbert/Main.cpp"
-    "qbert/GridComponent.cpp"
-    "qbert/Player/PlayerControllerComponent.cpp"
-    "qbert/Player/PlayerStateComponent.cpp"
-    
-    "qbert/Player/PlayerState.cpp"
-    "qbert/GridMovementComponent.cpp"
-    "qbert/Menu/MenuStateComponent.cpp" 
-    "qbert/Levels/Level01.cpp" 
-    "qbert/Levels/LevelManager.cpp"
-    "qbert/GridInteractionComponent.cpp" 
-    "qbert/Blocks/BlockStateComopnent.cpp" 
-    "qbert/Blocks/BlockState.cpp")
+    "GBert/Main.cpp"
+    "GBert/GridComponent.cpp"
+    "GBert/Player/PlayerControllerComponent.cpp"
+    "GBert/Player/PlayerStateComponent.cpp"
+     
+    "GBert/Player/PlayerState.cpp"
+    "GBert/GridMovementComponent.cpp"
+    "GBert/Menu/MenuStateComponent.cpp" 
+    "GBert/Levels/Level01.cpp" 
+    "GBert/Levels/LevelManager.cpp"
+    "GBert/GridInteractionComponent.cpp" 
+    "GBert/Blocks/BlockStateComopnent.cpp" 
+    "GBert/Blocks/BlockState.cpp")
 target_link_libraries(${APP_NAME} PRIVATE ${ENGINE_NAME})
 #________________________________________________________
 
