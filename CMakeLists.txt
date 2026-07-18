@@ -181,10 +181,10 @@ endif()
 
 #_____________________ENGINE_____________________________
 add_library(${ENGINE_NAME} STATIC  
-  Minigin/GameObject.cpp
+  "Minigin/GameObject.cpp"
  
-  Minigin/Minigin.cpp
-  Minigin/Renderer.cpp
+  "Minigin/Minigin.cpp"
+  "Minigin/Renderer.cpp"
   
   "Minigin/ResourceSystem/ResourceManager.cpp"
   "Minigin/ResourceSystem/Texture2D.cpp"
@@ -241,19 +241,19 @@ target_link_libraries("${ENGINE_NAME}" PUBLIC
 
 #_______________________EXECUTABLE_______________________
 add_executable(${APP_NAME} ${APP_PARAM}
-    "Qbert/Main.cpp"
-    "Qbert/GridComponent.cpp"
-    "Qbert/Player/PlayerControllerComponent.cpp"
-    "Qbert/Player/PlayerStateComponent.cpp"
+    "QBert/Main.cpp"
+    "QBert/GridComponent.cpp"
+    "QBert/Player/PlayerControllerComponent.cpp"
+    "QBert/Player/PlayerStateComponent.cpp"
     
-    "Qbert/Player/PlayerState.cpp"
-    "Qbert/GridMovementComponent.cpp"
-    "Qbert/Menu/MenuStateComponent.cpp" 
-    "Qbert/Levels/Level01.cpp" 
-    "Qbert/Levels/LevelManager.cpp"
-    "Qbert/GridInteractionComponent.cpp"
-    "Qbert/Blocks/BlockStateComopnent.cpp" 
-    "Qbert/Blocks/BlockState.cpp")
+    "QBert/Player/PlayerState.cpp"
+    "QBert/GridMovementComponent.cpp"
+    "QBert/Menu/MenuStateComponent.cpp" 
+    "QBert/Levels/Level01.cpp" 
+    "QBert/Levels/LevelManager.cpp"
+    "QBert/GridInteractionComponent.cpp"
+    "QBert/Blocks/BlockStateComopnent.cpp" 
+    "QBert/Blocks/BlockState.cpp")
 target_link_libraries(${APP_NAME} PRIVATE ${ENGINE_NAME})
 #________________________________________________________
 
