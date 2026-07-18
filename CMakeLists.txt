@@ -153,8 +153,8 @@ if(NOT SDL3_ttf_FOUND)
     set(SDL3TTF_INSTALL OFF)
     if(EMSCRIPTEN)
       list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/emscripten")
-      set(SDLTTF_VENDORED ON)
-      set(SDLTTF_USE_SYSTEM_FREETYPE OFF)
+      set(SDLTTF_VENDORED OFF)
+      set(SDLTTF_USE_SYSTEM_FREETYPE ON)
       set(SDLTTF_PLUTOSVG OFF)
       add_compile_options(-sUSE_HARFBUZZ=1)
       add_link_options(-sUSE_HARFBUZZ=1)
@@ -241,19 +241,19 @@ target_link_libraries("${ENGINE_NAME}" PUBLIC
 
 #_______________________EXECUTABLE_______________________
 add_executable(${APP_NAME} ${APP_PARAM}
-    "qbert/Main.cpp"
-    "qbert/GridComponent.cpp"
-    "qbert/Player/PlayerControllerComponent.cpp"
-    "qbert/Player/PlayerStateComponent.cpp"
+    "Qbert/Main.cpp"
+    "Qbert/GridComponent.cpp"
+    "Qbert/Player/PlayerControllerComponent.cpp"
+    "Qbert/Player/PlayerStateComponent.cpp"
     
-    "qbert/Player/PlayerState.cpp"
-    "qbert/GridMovementComponent.cpp"
-    "qbert/Menu/MenuStateComponent.cpp" 
-    "qbert/Levels/Level01.cpp" 
-    "qbert/Levels/LevelManager.cpp"
-    "qbert/GridInteractionComponent.cpp"
-    "qbert/Blocks/BlockStateComopnent.cpp" 
-    "qbert/Blocks/BlockState.cpp")
+    "Qbert/Player/PlayerState.cpp"
+    "Qbert/GridMovementComponent.cpp"
+    "Qbert/Menu/MenuStateComponent.cpp" 
+    "Qbert/Levels/Level01.cpp" 
+    "Qbert/Levels/LevelManager.cpp"
+    "Qbert/GridInteractionComponent.cpp"
+    "Qbert/Blocks/BlockStateComopnent.cpp" 
+    "Qbert/Blocks/BlockState.cpp")
 target_link_libraries(${APP_NAME} PRIVATE ${ENGINE_NAME})
 #________________________________________________________
 
