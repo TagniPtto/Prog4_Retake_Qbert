@@ -1,0 +1,72 @@
+#pragma once
+#include <memory>
+#include <InputSystem/InputTypes.h>
+namespace qbert
+{
+	class PlayerStateComponent;
+
+
+	enum class PlayerStateChange {
+		Idle,
+		MoveUp,
+		MoveDown,
+		MoveLeft,
+		MoveRight,
+		Push,
+		Death,
+	};
+
+
+	class PlayerState {
+	public:
+		virtual ~PlayerState() = default;
+
+		virtual void OnEnter(PlayerStateComponent& stateComponent);
+		virtual void OnExit(PlayerStateComponent& stateComponent);
+
+		virtual std::unique_ptr<PlayerState> Update(PlayerStateComponent& stateComponent);
+		virtual std::unique_ptr<PlayerState> HandleRequest(
+			PlayerStateComponent& stateComponent,
+			PlayerStateChange change) = 0;
+	};
+
+
+	class IdleState : public PlayerState {
+	public:
+		virtual ~IdleState() = default;
+		virtual void OnEnter(PlayerStateComponent& stateComponent) override;
+		virtual std::unique_ptr<PlayerState> HandleRequest(
+			PlayerStateComponent& stateComponent, 
+			PlayerStateChange change)override;
+	};
+
+
+	class MoveState : public PlayerState {
+		PlayerStateChange changeDirection;
+	public:
+		explicit MoveState(PlayerStateChange direction);
+		virtual ~MoveState() = default;
+		virtual void OnEnter(PlayerStateComponent& stateComponent) override;
+		virtual std::unique_ptr<PlayerState> Update(PlayerStateComponent& stateComponent) override;
+		virtual std::unique_ptr<PlayerState> HandleRequest(
+			PlayerStateComponent& stateComponent, 
+			PlayerStateChange change) override;
+	};
+	class PushState : public PlayerState {
+	public:
+		virtual ~PushState() = default;
+		virtual void OnEnter(PlayerStateComponent& stateComponent) override;
+		virtual std::unique_ptr<PlayerState> HandleRequest(
+			PlayerStateComponent& stateComponent,
+			PlayerStateChange change)override;
+	};
+
+	class DeadState : public PlayerState {
+	public:
+		virtual ~DeadState() = default;
+		virtual void OnEnter(PlayerStateComponent& stateComponent) override;
+		virtual std::unique_ptr<PlayerState> HandleRequest(
+			PlayerStateComponent& stateComponent,
+			PlayerStateChange change)override;
+	};
+}

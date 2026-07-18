@@ -1,0 +1,46 @@
+#pragma once
+#include <memory>
+
+#include <Components/ObjectComponent.h>
+#include "PlayerState.h"
+
+namespace dae {
+	class AnimationComponent;
+}
+
+namespace qbert
+{
+	class GridMovementComponent;
+	class GridInteractionComponent;
+	class PlayerActionCommand;
+
+	class PlayerStateComponent : public dae::ObjectComponent {
+	private:
+		std::unique_ptr<PlayerState> m_pCurrentState;
+	private:
+		dae::AnimationComponent* m_pAnimComp{};
+		GridMovementComponent* m_pMovementComp{};
+		GridInteractionComponent* m_pInteractionComp{};
+		
+	public:
+		~PlayerStateComponent() = default;
+		explicit PlayerStateComponent(
+			dae::GameObject& owner,
+			dae::AnimationComponent* anim = nullptr,
+			GridMovementComponent* mov = nullptr,
+			GridInteractionComponent* in = nullptr);
+		void Deserialize(const nlohmann::json& data) override;
+		void Serialize(nlohmann::json&) const override;
+
+	private:
+		void ChangeState(std::unique_ptr<PlayerState> newState);
+	public:
+		void HandleRequest(PlayerStateChange change);
+		void Update() override;
+
+		dae::AnimationComponent* GetAnimationComponent()const;
+		GridMovementComponent* GetGridMovementComponent()const;
+		GridInteractionComponent* GetGridInterationComponent()const;
+
+	};
+}

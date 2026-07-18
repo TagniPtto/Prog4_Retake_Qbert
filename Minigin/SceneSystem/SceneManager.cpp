@@ -1,0 +1,61 @@
+#include "SceneManager.h"
+#include "Scene.h"
+
+#include <nlohmann/json.hpp>
+#include <fstream>
+
+#include "../ServiceLocator.h"
+#include "../LoggingSystem/Logger.h"
+
+void dae::SceneManager::Update()
+{
+	for(auto& scene : m_scenes)
+	{
+		scene->Update();
+	}
+}
+
+void dae::SceneManager::Render()
+{
+	for (const auto& scene : m_scenes)
+	{
+		scene->Render();
+		scene->RenderUI();
+	}
+}
+
+dae::SceneManager::SceneManager()
+{
+}
+
+dae::SceneManager::~SceneManager()
+{}
+
+dae::Scene& dae::SceneManager::LoadScene(const std::string& path)
+{
+	auto& scene = CreateScene();
+
+	std::fstream file("Data/Scenes/" + path);
+
+	return scene;
+}
+
+dae::Scene& dae::SceneManager::CreateScene()
+{
+	m_scenes.emplace_back(new Scene());
+	return *m_scenes.back();
+}
+
+dae::Scene* dae::SceneManager::GetScene(int index) const
+{
+	if (index < (int)m_scenes.size())
+	{
+		return m_scenes[index].get();
+	}
+	return nullptr;
+}
+
+dae::Scene* dae::SceneManager::GetActiveScene() const
+{
+	return GetScene(activeSceneIndex);
+}
