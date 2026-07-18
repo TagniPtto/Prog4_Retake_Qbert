@@ -153,17 +153,15 @@ if(NOT SDL3_ttf_FOUND)
     set(SDL3TTF_INSTALL OFF)
     if(EMSCRIPTEN)
       list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/emscripten")
-      set(SDL3TTF_USE_SYSTEM_FREETYPE OFF)
-      set(SDL3TTF_VENDORED ON)
+      set(SDL3TTF_USE_SYSTEM_FREETYPE ON)
+      set(SDL3TTF_VENDORED OFF)
       set(SDLTTF_PLUTOSVG OFF)
-
       add_compile_options(-sUSE_FREETYPE=1 -sUSE_HARFBUZZ=1)
       add_link_options(-sUSE_FREETYPE=1 -sUSE_HARFBUZZ=1)
     endif()
     FetchContent_MakeAvailable(SDL3_ttf)
   endif()
 endif()
-
 
 
 
@@ -181,10 +179,10 @@ endif()
 
 #_____________________ENGINE_____________________________
 add_library(${ENGINE_NAME} STATIC  
-  "Minigin/GameObject.cpp"
+  Minigin/GameObject.cpp
  
-  "Minigin/Minigin.cpp"
-  "Minigin/Renderer.cpp"
+  Minigin/Minigin.cpp
+  Minigin/Renderer.cpp
   
   "Minigin/ResourceSystem/ResourceManager.cpp"
   "Minigin/ResourceSystem/Texture2D.cpp"
@@ -241,19 +239,19 @@ target_link_libraries("${ENGINE_NAME}" PUBLIC
 
 #_______________________EXECUTABLE_______________________
 add_executable(${APP_NAME} ${APP_PARAM}
-    "QBert/Main.cpp"
-    "QBert/GridComponent.cpp"
-    "QBert/Player/PlayerControllerComponent.cpp"
-    "QBert/Player/PlayerStateComponent.cpp"
+    "qbert/Main.cpp"
+    "qbert/GridComponent.cpp"
+    "qbert/Player/PlayerControllerComponent.cpp"
+    "qbert/Player/PlayerStateComponent.cpp"
     
-    "QBert/Player/PlayerState.cpp"
-    "QBert/GridMovementComponent.cpp"
-    "QBert/Menu/MenuStateComponent.cpp" 
-    "QBert/Levels/Level01.cpp" 
-    "QBert/Levels/LevelManager.cpp"
-    "QBert/GridInteractionComponent.cpp"
-    "QBert/Blocks/BlockStateComopnent.cpp" 
-    "QBert/Blocks/BlockState.cpp")
+    "qbert/Player/PlayerState.cpp"
+    "qbert/GridMovementComponent.cpp"
+    "qbert/Menu/MenuStateComponent.cpp" 
+    "qbert/Levels/Level01.cpp" 
+    "qbert/Levels/LevelManager.cpp"
+    "qbert/GridInteractionComponent.cpp" 
+    "qbert/Blocks/BlockStateComopnent.cpp" 
+    "qbert/Blocks/BlockState.cpp")
 target_link_libraries(${APP_NAME} PRIVATE ${ENGINE_NAME})
 #________________________________________________________
 
