@@ -251,7 +251,8 @@ add_executable(${APP_NAME} ${APP_PARAM}
     "QBert/Levels/LevelManager.cpp"
     "QBert/GridInteractionComponent.cpp" 
     "QBert/Blocks/BlockStateComopnent.cpp" 
-    "QBert/Blocks/BlockState.cpp")
+    "QBert/Blocks/BlockState.cpp" 
+    "QBert/Scenes/Scene01.cpp")
 target_link_libraries(${APP_NAME} PRIVATE ${ENGINE_NAME})
 #________________________________________________________
 

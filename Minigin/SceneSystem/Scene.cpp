@@ -1,3 +1,6 @@
+#include "Scene.h"
+#include "Scene.h"
+#include "Scene.h"
 #include <algorithm>
 #include "GameObject.h"
 #include "Scene.h"
@@ -46,6 +49,9 @@ void dae::Scene::DestroyMarkedObjects()
 		m_objects.end()
 	);
 }
+
+void dae::Scene::Initialize()
+{}
 
 void Scene::Update()
 {

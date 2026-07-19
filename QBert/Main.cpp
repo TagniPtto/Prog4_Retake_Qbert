@@ -14,15 +14,25 @@
 #include "GridMovementComponent.h"
 #include "GridInteractionComponent.h"
 #include "GridComponent.h"
-
+#include <SceneSystem/SceneManager.h>
+#include <ServiceLocator.h>
 #include <filesystem>
+
+#include "Scenes/Scene01.h"
+
 namespace fs = std::filesystem;
 
 static void load()
 {
-	qbert::LevelManager::Get().AddLevel(std::make_unique<qbert::Level01>());
-	qbert::LevelManager::Get().Load(0);
+	//qbert::LevelManager::Get().AddLevel(std::make_unique<qbert::Level01>());
+	//qbert::LevelManager::Get().Load(0);
 
+	auto& sceneManager = dae::ServiceLocator<dae::SceneManager>::Get();
+	sceneManager.AddScene(std::make_unique<qbert::Scene01>());
+	if (!sceneManager.LoadScene(0)) 
+	{
+		
+	}
 }
 
 

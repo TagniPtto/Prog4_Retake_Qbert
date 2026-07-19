@@ -127,6 +127,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath) :
 	m_pSoundSystem = std::unique_ptr<SDLSoundSystem>(new dae::SDLSoundSystem());
 #endif
 
+
 	ServiceLocator<dae::ISoundSystem>	::Register(m_pSoundSystem.get());
 	ServiceLocator<dae::EventQueue>		::Register(m_pEventQueue.get());
 	ServiceLocator<dae::InputManager>	::Register(m_pInputManager.get());

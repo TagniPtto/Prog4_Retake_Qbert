@@ -2,17 +2,18 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <SceneSystem/Scene.h>
+
 
 namespace dae
 {
-	class Scene;
 	class SceneManager final
 	{
 	public:
-		~SceneManager();
+		~SceneManager() = default;
 
-		Scene& LoadScene(const std::string& path);
-		Scene& CreateScene();
+		bool LoadScene(unsigned int index);
+		void AddScene(std::unique_ptr<Scene> scene);
 
 		Scene* GetScene(int index) const;
 		Scene* GetActiveScene() const;
@@ -22,9 +23,9 @@ namespace dae
 
 	private:
 		friend class Minigin;
-		SceneManager();
+		SceneManager() = default;
 
-		int activeSceneIndex{};
+		unsigned int m_activeSceneIndex{};
 		std::vector<std::unique_ptr<Scene>> m_scenes{};
 	};
 }

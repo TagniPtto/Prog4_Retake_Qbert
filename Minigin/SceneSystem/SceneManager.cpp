@@ -1,4 +1,6 @@
 #include "SceneManager.h"
+#include "SceneManager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 
 #include <nlohmann/json.hpp>
@@ -9,42 +11,35 @@
 
 void dae::SceneManager::Update()
 {
-	for(auto& scene : m_scenes)
-	{
+	if (const auto& scene = m_scenes[m_activeSceneIndex]; scene) {
 		scene->Update();
 	}
 }
 
 void dae::SceneManager::Render()
 {
-	for (const auto& scene : m_scenes)
-	{
+	if (const auto& scene = m_scenes[m_activeSceneIndex]; scene) {
 		scene->Render();
 		scene->RenderUI();
 	}
 }
 
-dae::SceneManager::SceneManager()
+bool dae::SceneManager::LoadScene(unsigned int index)
 {
+	if (m_scenes.size() > index && index >= 0)
+	{
+		m_scenes[m_activeSceneIndex]->Initialize();
+		m_activeSceneIndex = index;
+		return true;
+	}
+	return false;
 }
 
-dae::SceneManager::~SceneManager()
-{}
-
-dae::Scene& dae::SceneManager::LoadScene(const std::string& path)
+void dae::SceneManager::AddScene(std::unique_ptr<Scene> scene)
 {
-	auto& scene = CreateScene();
-
-	std::fstream file("Data/Scenes/" + path);
-
-	return scene;
+	m_scenes.push_back(std::move(scene));
 }
 
-dae::Scene& dae::SceneManager::CreateScene()
-{
-	m_scenes.emplace_back(new Scene());
-	return *m_scenes.back();
-}
 
 dae::Scene* dae::SceneManager::GetScene(int index) const
 {
@@ -57,5 +52,5 @@ dae::Scene* dae::SceneManager::GetScene(int index) const
 
 dae::Scene* dae::SceneManager::GetActiveScene() const
 {
-	return GetScene(activeSceneIndex);
+	return GetScene(m_activeSceneIndex);
 }
