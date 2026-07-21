@@ -8,15 +8,17 @@ namespace dae
 	{
 	public:
 		explicit TransformComponent(dae::GameObject& owner);
-		glm::vec3 GetLocalPosition() const;
-		glm::vec3 GetWorldPosition() const;
 		void SetLocalPosition(float x, float y, float z = 0);
 		void SetLocalPosition(glm::vec3 position);
-
+		glm::vec3 GetLocalPosition() const;
+		glm::vec3 GetWorldPosition() const;
 
 		void SetLocalRotation(float newRotation);
 		float GetLocalRotation()const;
 		float GetWorldRotation()const;
+
+		void Rotate(float rotation);
+		void Translate(glm::vec3 offset);
 
 		void SetTransformDirty();
 		void UpdateWorldTransform() const;

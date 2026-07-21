@@ -9,41 +9,90 @@
 #include "PlayerCommands.h"
 
 
+#include <InputSystem/IInputCommand.h>
+#include <TimeManager.h>
+
+namespace qbert 
+{
+	class MoveCommand : public dae::IInputCommand {
+	public:
+		dae::GameObject* obj{};
+		float speed{1000.0f};
+	public:
+		explicit MoveCommand(dae::GameObject* ob):
+			obj(ob)
+		{
+
+		}
+		virtual ~MoveCommand() = default;
+		void Execute(dae::InputContext context) override
+		{
+			auto direction = std::get<glm::vec2>(context.value);
+			direction.y *= -1.0f;
+			direction = glm::normalize(direction);
+			const auto deltaTime = dae::Time::Get().GetDeltaTime();
+			obj->GetTransform()->Translate(glm::vec3{direction * deltaTime * speed , 0.0f});
+		}
+
+	};
+	class MoveDirectionCommand : public MoveCommand {
+	public:
+		glm::vec2 direction;
+	public:
+		explicit MoveDirectionCommand(dae::GameObject* ob , glm::vec2 _direction) :
+			MoveCommand(ob), direction(_direction)
+		{
+
+		}
+		virtual ~MoveDirectionCommand() = default;
+		void Execute(dae::InputContext context) override
+		{
+			context.value = direction * (float)std::get<bool>(context.value);
+			MoveCommand::Execute(context);
+		}
+
+	};
+}
+
 qbert::PlayerControllerComponent::PlayerControllerComponent(dae::GameObject& pawn):
 	ObjectComponent(pawn)
 {
-	auto pStateComp = GetOwner()->GetComponent<qbert::PlayerStateComponent>();
-	auto cMU = std::make_unique<qbert::PlayerStateRequestCommand>(pStateComp,PlayerStateChange::MoveUp);
-	auto cMD = std::make_unique<qbert::PlayerStateRequestCommand>(pStateComp,PlayerStateChange::MoveDown);
-	auto cML = std::make_unique<qbert::PlayerStateRequestCommand>(pStateComp,PlayerStateChange::MoveLeft);
-	auto cMR = std::make_unique<qbert::PlayerStateRequestCommand>(pStateComp,PlayerStateChange::MoveRight);
-	auto cM = std::make_unique<qbert::PlayerStateRequestCommand>(pStateComp,PlayerStateChange::MoveUp);
-
-	dae::ServiceLocator<dae::InputManager>::Get().BindCommand(
-		std::move(cM),
-		0,
+	auto& inputSystem = dae::ServiceLocator<dae::InputManager>::Get();
+	auto moveCommand		= std::make_shared<qbert::MoveCommand>(GetOwner());
+	auto moveUpCommand		= std::make_shared<qbert::MoveDirectionCommand>(GetOwner(),glm::vec2(0,1));
+	auto moveDownCommand	= std::make_shared<qbert::MoveDirectionCommand>(GetOwner(),glm::vec2(0,-1));
+	auto moveLeftCommand	= std::make_shared<qbert::MoveDirectionCommand>(GetOwner(),glm::vec2(-1,0));
+	auto moveRightCommand	= std::make_shared<qbert::MoveDirectionCommand>(GetOwner(),glm::vec2(1,0));
+	
+	inputSystem.BindCommand(	
+		std::move(moveCommand),
 		dae::InputValueType::Vector2,
 		dae::GamepadInput::LeftThumb,
-		dae::InputTriggerType::Held);
-
-	dae::ServiceLocator<dae::InputManager>::Get().BindCommand(
-		std::move(cMU),
+		0,
+		dae::InputTriggerType::Held
+	);
+	inputSystem.BindCommand(
+		std::move(moveUpCommand),
 		dae::InputValueType::Boolean,
 		dae::KeyboardInput::KeyW,
-		dae::InputTriggerType::Pressed);
-	dae::ServiceLocator<dae::InputManager>::Get().BindCommand(
-		std::move(cMD),
+		dae::InputTriggerType::Held
+	);
+	inputSystem.BindCommand(
+		std::move(moveDownCommand),
 		dae::InputValueType::Boolean,
 		dae::KeyboardInput::KeyS,
-		dae::InputTriggerType::Pressed);
-	dae::ServiceLocator<dae::InputManager>::Get().BindCommand(
-		std::move(cML),
+		dae::InputTriggerType::Held
+	);
+	inputSystem.BindCommand(
+		std::move(moveLeftCommand),
 		dae::InputValueType::Boolean,
 		dae::KeyboardInput::KeyA,
-		dae::InputTriggerType::Pressed);
-	dae::ServiceLocator<dae::InputManager>::Get().BindCommand(
-		std::move(cMR),
+		dae::InputTriggerType::Held
+	);
+	inputSystem.BindCommand(
+		std::move(moveRightCommand),
 		dae::InputValueType::Boolean,
 		dae::KeyboardInput::KeyD,
-		dae::InputTriggerType::Pressed);
+		dae::InputTriggerType::Held
+	);
 }

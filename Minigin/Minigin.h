@@ -15,12 +15,12 @@ namespace dae
 
 	class Minigin final
 	{
-		std::unique_ptr<ResourceManager> m_pResourceManager;
-		std::unique_ptr<SceneManager> m_pSceneManager;
-		std::unique_ptr<InputManager> m_pInputManager;
-		std::unique_ptr<ISoundSystem> m_pSoundSystem;
-		std::unique_ptr<EventQueue> m_pEventQueue;
-		std::unique_ptr<Renderer> m_pRenderer;
+		std::unique_ptr<ResourceManager>	m_pResourceManager;
+		std::unique_ptr<SceneManager>		m_pSceneManager;
+		std::unique_ptr<InputManager>		m_pInputManager;
+		std::unique_ptr<ISoundSystem>		m_pSoundSystem;
+		std::unique_ptr<EventQueue>			m_pEventQueue;
+		std::unique_ptr<Renderer>			m_pRenderer;
 
 		bool m_quit{};
 	public:

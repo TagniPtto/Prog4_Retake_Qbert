@@ -52,7 +52,7 @@
 	}
 	float dae::XBoxControllerImpl::GetRightThumbX() const
 	{
-		return m_currentState.Gamepad.sThumbRY;
+		return m_currentState.Gamepad.sThumbRX;
 	}
 
 	float dae::XBoxControllerImpl::GetRightThumbY() const

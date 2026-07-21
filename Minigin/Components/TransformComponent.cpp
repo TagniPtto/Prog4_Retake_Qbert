@@ -1,3 +1,5 @@
+#include "TransformComponent.h"
+#include "TransformComponent.h"
 #include "Components/TransformComponent.h"
 #include "GameObject.h"
 
@@ -28,6 +30,14 @@ float dae::TransformComponent::GetWorldRotation() const
 {
 	UpdateWorldTransform();
 	return m_worldRotation;
+}
+void dae::TransformComponent::Rotate(float rotation)
+{
+	SetLocalRotation(m_localRotation + rotation);
+}
+void dae::TransformComponent::Translate(glm::vec3 offset)
+{
+	SetLocalPosition(m_localPosition + offset);
 }
 dae::TransformComponent::TransformComponent(dae::GameObject& owner):
 	ObjectComponent(owner)
