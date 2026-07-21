@@ -72,11 +72,3 @@ qbert::GridInteractionComponent* qbert::PlayerStateComponent::GetGridInterationC
 {
 	return m_pInteractionComp;
 }
-
-
-
-void qbert::PlayerStateComponent::Deserialize(const nlohmann::json&)
-{}
-
-void qbert::PlayerStateComponent::Serialize(nlohmann::json&) const
-{}

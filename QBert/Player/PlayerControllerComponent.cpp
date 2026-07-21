@@ -47,18 +47,3 @@ qbert::PlayerControllerComponent::PlayerControllerComponent(dae::GameObject& paw
 		dae::KeyboardInput::KeyD,
 		dae::InputTriggerType::Pressed);
 }
-
-
-void qbert::PlayerControllerComponent::Deserialize(const nlohmann::json&)
-{
-	//auto commandBindings = data["CommandBindings"];
-
-	//for (auto& commandBinding : commandBindings) {
-	//	auto& binding = commandBinding["Binding"];
-	//	auto& command = commandBinding["Command"];
-	//	
-	//}
-}
-
-void qbert::PlayerControllerComponent::Serialize(nlohmann::json &) const
-{}

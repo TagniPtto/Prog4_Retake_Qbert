@@ -70,9 +70,10 @@ void dae::SDLSoundSystem::ThreadProcess()
 
 
         MIX_Audio* audio = m_loadedAudio[event.name];
+        lock.unlock();
+
         MIX_Track* track = nullptr;
         SDL_PropertiesID options = SDL_CreateProperties();
-
 
         if (!audio) continue;
 
@@ -96,7 +97,6 @@ void dae::SDLSoundSystem::ThreadProcess()
 
 void dae::SDLSoundSystem::LoadAudio(const std::string& fname, const std::string& name)
 {
-    std::scoped_lock lock(m_mutex);
     char* path = nullptr;
     MIX_Audio* audio;
     SDL_asprintf(&path, "%s%s", SDL_GetBasePath(), fname.c_str());
@@ -104,8 +104,11 @@ void dae::SDLSoundSystem::LoadAudio(const std::string& fname, const std::string&
     if (!audio) {
         SDL_Log("Couldn't load %s: %s", path, SDL_GetError());
     }
-    m_loadedAudio.insert({ name ,audio });
-    SDL_free(path); 
+    SDL_free(path);
+    {
+        std::scoped_lock lock(m_mutex);
+        m_loadedAudio.insert({ name ,audio });
+    }
 }
 
 void dae::SDLSoundSystem::UnloadAudio(const std::string& name)

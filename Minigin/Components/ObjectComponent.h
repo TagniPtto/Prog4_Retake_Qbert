@@ -1,17 +1,4 @@
 #pragma once
-#include <nlohmann/json.hpp>
-
-
-#define REGISTER_COMPONENT(TYPE) \
-dae::ComponentFactory::Get().Register( \
-	#TYPE, \
-	[](dae::GameObject& owner, const nlohmann::json& data)->void\
-	{\
-		dae::ObjectComponent* comp = owner.AddComponent<TYPE>(); \
-		comp->Deserialize(data);\
-	}\
-	)
-
 
 namespace dae {
 	class GameObject;
@@ -40,9 +27,6 @@ namespace dae {
 		virtual void RenderUI();
 		virtual void Update();
 		virtual void FixedUpdate(float);
-
-		virtual void Deserialize(const nlohmann::json& data);
-		virtual void Serialize(nlohmann::json& data) const;
 	};
 }
 

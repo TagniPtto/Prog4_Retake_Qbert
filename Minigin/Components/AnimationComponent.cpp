@@ -56,35 +56,6 @@ void dae::AnimationComponent::ResumeCurrentAnimation()
 }
 
 
-
-
-void dae::AnimationComponent::Deserialize(const nlohmann::json& data)
-{
-	if (auto it = data.find("texture"); it != data.end()) {
-		std::string tx = *it;
-		m_pRenderComponent->SetTexture(tx);
-	}
-	if (auto it = data.find("destinationRect"); it != data.end()) {
-		auto dstR = *it;
-		m_pRenderComponent->SetDestinationRectangle({ dstR[0],dstR[1],dstR[2],dstR[3] });
-	}
-	if (auto it = data.find("animationSequences"); it != data.end()) {
-
-		for (auto& animationSeq : *it) {
-			AnimationSequence seq;
-			seq.Deserialize(animationSeq);
-			std::string name = animationSeq["name"];
-			AddAnimationSequence(name,seq);
-		}
-	}
-	if (auto it = data.find("startingAnimation"); it != data.end()) {
-		PlayAnimation(*it);
-	}
-}
-
-void dae::AnimationComponent::Serialize(nlohmann::json &) const
-{}
-
 void dae::AnimationComponent::AddAnimationSequence(std::string name,const Rect& sourceRect, int rows, int columns, int sequenceStart, int sequenceLength, float timePerFrame, AnimationSequence::AnimationPlayBack playback)
 {
 	m_sequences[name] = AnimationSequence( sourceRect, rows, columns, sequenceStart, sequenceLength,timePerFrame, playback );
@@ -170,61 +141,6 @@ dae::AnimationSequence::AnimationSequence(int columns, int rows, int sequenceSta
 	m_currentIndex()
 {
 }
-
-void dae::AnimationSequence::Deserialize(const nlohmann::json& data)
-{
-	if (auto it = data.find("sequenceStart"); it != data.end())
-	{
-		m_sequenceStart = *it;
-	}
-	if (auto it = data.find("sequenceLength"); it != data.end())
-	{
-		m_sequenceLength = *it;
-	}
-	if (auto it = data.find("frameTime"); it != data.end())
-	{
-		m_timePerFrame = *it;
-	}
-	if (auto it = data.find("playBack"); it != data.end())
-	{
-		std::string playBackString = *it;
-		if (playBackString == "Looped") {
-			m_playback = AnimationPlayBack::Looped;
-		}
-		if (playBackString == "Normal") {
-			m_playback = AnimationPlayBack::Normal;
-		}
-		if (playBackString == "Reversed") {
-			m_playback = AnimationPlayBack::Reversed;
-		}
-		if (playBackString == "ReversedLooped") {
-			m_playback = AnimationPlayBack::ReverseLooped;
-		}
-
-	}
-	if (auto it = data.find("columns"); it != data.end())
-	{
-		m_columns = *it;
-	}
-	if (auto it = data.find("rows"); it != data.end())
-	{
-		m_rows = *it;
-	}
-	if (auto it = data.find("sourceRect"); it != data.end())
-	{
-		auto sourceR= *it;
-		m_SourceRectangle = {
-			.left	= sourceR[0],
-			.top	= sourceR[1],
-			.width	= sourceR[2],
-			.height = sourceR[3],
-		};
-	}
-}
-
-void dae::AnimationSequence::Serialize(nlohmann::json &) const
-{}
-
 
 void dae::AnimationSequence::Reset()
 {

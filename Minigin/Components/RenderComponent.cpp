@@ -93,22 +93,4 @@ namespace dae {
 		m_texture = std::move(texture);
 	}
 
-	void RenderComponent::Deserialize(const nlohmann::json& data)
-	{
-		if (auto it = data.find("texture"); it != data.end()) {
-			SetTexture(*it);
-		}
-		if (auto it = data.find("destinationRect"); it != data.end()) {
-			auto dstR = *it;
-			SetDestinationRectangle({ dstR[0],dstR[1],dstR[2],dstR[3] });
-		}
-		if (auto it = data.find("sourceRect"); it != data.end()) {
-			auto srcR = *it;
-			SetSourceRectangle({ srcR[0],srcR[1],srcR[2],srcR[3] });
-		}
-	}
-
-	void RenderComponent::Serialize(nlohmann::json&) const
-	{}
-
 }

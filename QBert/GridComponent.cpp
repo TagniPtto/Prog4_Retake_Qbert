@@ -6,7 +6,6 @@
 #include <Components/RenderComponent.h>
 #include <Components/AnimationComponent.h>
 #include <Renderer.h>
-#include <LoggingSystem/Logger.h>
 
 #include <imgui.h>
 #include <nlohmann/json.hpp>
@@ -151,11 +150,3 @@ void qbert::GridComponent::LoadMap(const nlohmann::json& data)
 			});
 	}
 }
-
-void qbert::GridComponent::Deserialize(const nlohmann::json& data)
-{
-	LoadMap(data);
-}
-
-void qbert::GridComponent::Serialize(nlohmann::json&) const
-{}

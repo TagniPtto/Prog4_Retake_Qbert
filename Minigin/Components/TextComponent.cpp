@@ -65,25 +65,3 @@ void dae::TextComponent::SetFont(std::shared_ptr<Font> font)
 {
 	m_font = font;
 }
-
-void dae::TextComponent::Deserialize(const nlohmann::json& data)
-{
-	auto RM = ServiceLocator<ResourceManager>::Get();
-	
-	int fontSize = { 30 };
-	if (auto it = data.find("fontSize"); it != data.end()) {
-		fontSize = *it;
-	}
-	if (auto it = data.find("font"); it != data.end()) {
-
-		SetFont(RM.LoadFont(*it,uint8_t(fontSize)));
-	}
-	if (auto it = data.find("fontColor"); it != data.end()) {
-		auto FC = *it;
-		SDL_Color color{ FC[0],FC[1],FC[2], 1 };
-		SetColor(color);
-	}
-}
-
-void dae::TextComponent::Serialize(nlohmann::json&) const
-{}

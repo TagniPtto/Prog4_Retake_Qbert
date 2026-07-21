@@ -11,7 +11,6 @@ namespace dae
 	class SceneManager;
 	class InputManager;
 	class Renderer;
-	class Logger;
 
 
 	class Minigin final
@@ -22,7 +21,6 @@ namespace dae
 		std::unique_ptr<ISoundSystem> m_pSoundSystem;
 		std::unique_ptr<EventQueue> m_pEventQueue;
 		std::unique_ptr<Renderer> m_pRenderer;
-		std::unique_ptr<Logger> m_pLogger;
 
 		bool m_quit{};
 	public:

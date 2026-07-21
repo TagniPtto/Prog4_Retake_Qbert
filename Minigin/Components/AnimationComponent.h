@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Components/ObjectComponent.h>
-#include <map>
+#include <unordered_map>
 #include <string>
 
 namespace dae {
@@ -46,8 +46,6 @@ namespace dae {
 		void Reset();
 
 		Rect Get() const;
-		void Deserialize(const nlohmann::json& data);
-		void Serialize(nlohmann::json& data) const;
 	
 	};
 
@@ -64,9 +62,6 @@ namespace dae {
 		void PlayAnimation(const std::string& name);
 		void PauseCurrentAnimation();
 		void ResumeCurrentAnimation();
-		
-		void Deserialize(const nlohmann::json& data) override;
-		void Serialize(nlohmann::json& data) const override;
 
 		void AddAnimationSequence(std::string name,const Rect& sourceRect, int rows, int columns, int sequenceStart, int sequenceLength, float timePerFrame, AnimationSequence::AnimationPlayBack playback = AnimationSequence::AnimationPlayBack::Normal);
 		void AddAnimationSequence(std::string name,AnimationSequence animSeq);

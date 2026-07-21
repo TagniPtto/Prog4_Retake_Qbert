@@ -13,9 +13,6 @@ namespace qbert {
 		virtual ~GridInteractionComponent() = default;
 		explicit GridInteractionComponent(dae::GameObject& owner);
 
-		void Deserialize(const nlohmann::json& data) override;
-		void Serialize(nlohmann::json&) const override;
-
 		void RequestPush(glm::ivec2 direction);
 
 	};

@@ -5,6 +5,7 @@
 #include <vector>
 #include <cinttypes>
 #include <string>
+#include <nlohmann/json.hpp>
 
 namespace qbert {
 	struct Tile {
@@ -41,11 +42,7 @@ namespace qbert {
 		bool IsTileOccupiedByBlock(glm::ivec2);
 		void ReserveTile(glm::ivec2);
 
-
-
-
 		void LoadMap(const nlohmann::json& data);
-		void Deserialize(const nlohmann::json& data) override;
-		void Serialize(nlohmann::json& data) const override;
+
 	};
 }

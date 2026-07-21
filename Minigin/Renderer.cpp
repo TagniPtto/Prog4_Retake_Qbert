@@ -7,8 +7,6 @@
 #include "ServiceLocator.h"
 #include "SceneSystem/SceneManager.h"
 #include "ResourceSystem/Texture2D.h"
-#include "LoggingSystem/Logger.h"
-
 
 
 #include <imgui.h>
@@ -65,7 +63,6 @@ void dae::Renderer::Render() const
 	SDL_RenderClear(m_renderer);
 
 	ServiceLocator<SceneManager>::Get().Render();
-	ServiceLocator<Logger>::Get().RenderUI();
 
 	ImGui::Render();
 	ImGui_ImplSDLRenderer3_RenderDrawData(ImGui::GetDrawData(), m_renderer);

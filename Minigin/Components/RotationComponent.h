@@ -12,10 +12,6 @@ namespace dae {
 
 	public:
 		RotationComponent(GameObject& owner, float frequency = 0);
-	public:
-		void Deserialize(const nlohmann::json& data)override;
-		void Serialize(nlohmann::json& data)const override;
-
 		void Update() override;
 
 	};

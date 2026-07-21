@@ -29,8 +29,6 @@ namespace qbert
 			dae::AnimationComponent* anim = nullptr,
 			GridMovementComponent* mov = nullptr,
 			GridInteractionComponent* in = nullptr);
-		void Deserialize(const nlohmann::json& data) override;
-		void Serialize(nlohmann::json&) const override;
 
 	private:
 		void ChangeState(std::unique_ptr<PlayerState> newState);

@@ -14,11 +14,6 @@ qbert::GridInteractionComponent::GridInteractionComponent(dae::GameObject& owner
     }
 }
 
-void qbert::GridInteractionComponent::Deserialize(const nlohmann::json &)
-{}
-
-void qbert::GridInteractionComponent::Serialize(nlohmann::json&) const
-{}
 
 void qbert::GridInteractionComponent::RequestPush(glm::ivec2)
 {}

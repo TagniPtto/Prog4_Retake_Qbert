@@ -70,8 +70,3 @@ void qbert::GridMovementComponent::Update()
     auto position = glm::mix(fromPosition, toPosition, m_Progress);
     m_pTransformComp->SetLocalPosition(position);
 }
-void qbert::GridMovementComponent::Deserialize(const nlohmann::json &)
-{}
-
-void qbert::GridMovementComponent::Serialize(nlohmann::json &) const
-{}

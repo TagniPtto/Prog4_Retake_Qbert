@@ -25,8 +25,6 @@
 #include "ResourceSystem/ResourceManager.h"
 #include "SoundSystem/SDLLoggingSoundSystem.h"
 #include "EventSystem/EventQueue.h"
-#include "LoggingSystem/Logger.h"
-
 
 #include "Components/AnimationComponent.h"
 #include "Components/RenderComponent.h"
@@ -90,8 +88,7 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath) :
 	m_pInputManager(new dae::InputManager()),
 	m_pSoundSystem(nullptr),
 	m_pEventQueue(new dae::EventQueue()),
-	m_pRenderer(new dae::Renderer()),
-	m_pLogger(std::make_unique<Logger>())
+	m_pRenderer(new dae::Renderer())
 {
 
 	PrintSDLVersion();
@@ -134,7 +131,6 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath) :
 	ServiceLocator<dae::SceneManager>	::Register(m_pSceneManager.get());
 	ServiceLocator<dae::ResourceManager>::Register(m_pResourceManager.get());
 	ServiceLocator<dae::Renderer>		::Register(m_pRenderer.get());
-	ServiceLocator<dae::Logger>			::Register(m_pLogger.get());
 }
 
 dae::Minigin::~Minigin()

@@ -7,7 +7,6 @@
 #include <fstream>
 
 #include "../ServiceLocator.h"
-#include "../LoggingSystem/Logger.h"
 
 void dae::SceneManager::Update()
 {

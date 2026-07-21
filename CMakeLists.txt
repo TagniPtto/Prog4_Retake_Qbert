@@ -212,10 +212,8 @@ add_library(${ENGINE_NAME} STATIC
   
   "Minigin/SoundSystem/SDLSoundSystem.cpp"
   "Minigin/SoundSystem/SDLLoggingSoundSystem.cpp"
-  
-  "Minigin/LoggingSystem/Logger.cpp"
-  "Minigin/LoggingSystem/FileSink.cpp"
-  "Minigin/LoggingSystem/UISink.cpp")
+ 
+  )
 
 
 target_include_directories("${ENGINE_NAME}" PUBLIC

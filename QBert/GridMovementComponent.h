@@ -38,8 +38,5 @@ namespace qbert {
 		bool RequestMove(glm::ivec2 direction);
 		void Update() override;
 
-		void Deserialize(const nlohmann::json& data) override;
-		void Serialize(nlohmann::json& data) const override;
-
 	};
 }

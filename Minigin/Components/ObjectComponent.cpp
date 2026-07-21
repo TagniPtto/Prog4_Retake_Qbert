@@ -22,10 +22,4 @@ namespace dae {
 	void ObjectComponent::FixedUpdate(float)
 	{}
 
-	void ObjectComponent::Deserialize(const nlohmann::json&)
-	{}
-
-	void ObjectComponent::Serialize(nlohmann::json&) const
-	{}
-
 }
