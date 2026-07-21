@@ -20,7 +20,8 @@ namespace qbert
 
 		int m_tileSize{};
 
-		std::vector<dae::GameObject*>	m_entities;
+		using GridEntity = std::pair<dae::GameObject*, int>;
+		std::vector<GridEntity>			m_entities;
 		std::vector<dae::GameObject*>	m_tiles;
 
 	public:
@@ -28,7 +29,8 @@ namespace qbert
 		explicit GridComponent(dae::GameObject& owner, const std::string& path);
 
 	private:
-		dae::GameObject* GetTile(glm::ivec2 index);
+		dae::GameObject* GetTileObject(glm::ivec2 index);
+		glm::vec2 GetTileWorldLocation(glm::ivec2 index);
 
 		bool IsValidTileIndex(glm::ivec2 index);
 		void CreateTiles(const nlohmann::json& data);
@@ -38,6 +40,6 @@ namespace qbert
 		void Update() override;
 		void RenderUI() override;
 		void LoadMap(const nlohmann::json& data);
-
+		void AddEntity(dae::GameObject* entity);
 	};
 }
