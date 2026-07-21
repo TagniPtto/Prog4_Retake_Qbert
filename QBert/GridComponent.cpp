@@ -49,8 +49,11 @@ void qbert::GridComponent::CreateTile(int x , int y)
 {
 	dae::Scene* currentScene = dae::ServiceLocator<dae::SceneManager>::Get().GetActiveScene();
 	if (!currentScene) return;
-	const float xPos{ float(x * m_tileSize * tilePixelSizeY) };
-	const float yPos{ float(y * m_tileSize * tilePixelSizeY) };
+
+	constexpr float xOffset{ tilePixelSizeX * 0.5f};
+	constexpr float yOffset{ tilePixelSizeY * 0.75f};
+	const float xPos{ float(x * m_tileSize * xOffset - y * m_tileSize * xOffset) };
+	const float yPos{ float(x * m_tileSize * yOffset + y * m_tileSize * yOffset) };
 
 	auto obj = currentScene->CreateGameObject();
 	obj->SetParent(GetOwner());
@@ -60,7 +63,7 @@ void qbert::GridComponent::CreateTile(int x , int y)
 	renderComp->SetSourceRectangle(0.0f,0.0f, tilePixelSizeX, tilePixelSizeY);
 	renderComp->SetDestinationRectangle(0.0f, 0.0f, float(tilePixelSizeX * m_tileSize), float(tilePixelSizeY * m_tileSize));
 	
-	objects[y][x] = obj;
+	m_tiles[y*m_tileXCount + x] = obj;
 }
 void qbert::GridComponent::CreateTiles(const nlohmann::json& data)
 {
@@ -84,8 +87,9 @@ void qbert::GridComponent::LoadMap(const nlohmann::json& data)
 	const auto tiles = data["tiles"];
 
 	m_tileYCount = (int)tiles.size();
-	m_tileXCount = (int)tiles[0].size();
+	m_tileXCount = (int)tiles[0].size(); 
 
-	objects = std::vector<std::vector<dae::GameObject*>>(m_tileYCount, std::vector<dae::GameObject*>(m_tileXCount));
+	m_tiles		= std::vector<dae::GameObject*>(m_tileYCount * m_tileXCount);
+	m_entities	= std::vector<dae::GameObject*>(m_tileYCount * m_tileXCount);
 	CreateTiles(data);
 }

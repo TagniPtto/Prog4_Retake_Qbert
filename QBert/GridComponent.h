@@ -20,13 +20,16 @@ namespace qbert
 
 		int m_tileSize{};
 
-		std::vector<std::vector<dae::GameObject*>> objects;
+		std::vector<dae::GameObject*>	m_entities;
+		std::vector<dae::GameObject*>	m_tiles;
 
 	public:
 		~GridComponent() = default;
 		explicit GridComponent(dae::GameObject& owner, const std::string& path);
 
 	private:
+		dae::GameObject* GetTile(glm::ivec2 index);
+
 		bool IsValidTileIndex(glm::ivec2 index);
 		void CreateTiles(const nlohmann::json& data);
 		void CreateTile(int x, int y);
