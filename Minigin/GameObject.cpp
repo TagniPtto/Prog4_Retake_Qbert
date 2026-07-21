@@ -7,6 +7,7 @@
 #include "Renderer.h"
 
 
+
 dae::GameObject::GameObject():m_transform(std::make_unique<dae::TransformComponent>(*this))
 {
 }

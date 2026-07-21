@@ -11,105 +11,72 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 
-#define ORIGINAL_PIXEL_COUNT_BORDER 8
-#define ORIGINAL_PIXEL_COUNT_BlOCK 16
+#include <Utils.h>
+
 
 bool qbert::GridComponent::IsValidTileIndex(glm::ivec2 index)
 {
 	return !(index.x >= m_tileXCount || index.x < 0 || index.y >= m_tileYCount || index.y < 0);
 }
 
+
+
+
 void qbert::GridComponent::Update()
 {
+	GetOwner()->GetTransform()->Rotate(-1.0f);
+	for (auto& obje : objects)
+	{
+		for (auto& obj : obje)
+		{
+			if (obj) {
+
+			obj->GetTransform()->Rotate(1.0f);
+			}
+		}
+	}
 }
 
 void qbert::GridComponent::RenderUI()
 {
-	ImGui::Begin("GridObjectWindow", &m_debugWindowOpen);
-
+	ImGui::Begin("GridObjectWindow");
 	ImGui::End();
 }
 
-void qbert::GridComponent::Render() const
-{
-	//auto renderer = dae::ServiceLocator<dae::Renderer>::Get();
-
-	//for (auto& rows: m_tiles) {
-	//	for (auto& tile : rows) {
-
-	//	}
-	//}
-}
-
-
-glm::ivec2 qbert::GridComponent::GetClosestAvailableTile(glm::vec3 position)
-{
-	int tileX = int(position.x / m_tileSize);
-	int tileY = int(position.y / m_tileSize);
-
-	tileX = std::max(0, std::min(m_tileXCount, tileX));
-	tileY = std::max(0, std::min(m_tileYCount, tileY));
-
-
-	for (int y{ -1 }; y < 1; y++) {
-		for (int x{ -1 }; x < 1; x++) {
-
-			glm::ivec2 tileId(
-				std::max(0, std::min(m_tileXCount, tileX + x)),
-				std::max(0, std::min(m_tileYCount, tileY + y)));
-
-			if (!IsTileOccupiedByBlock(tileId)) {
-				return tileId;
-			}
-		}
-	}
-
-	return glm::ivec2(tileX, tileY);
-}
-
-glm::vec3 qbert::GridComponent::GetTilePosition(glm::vec2 posId) const
-{
-	return GetOwner()->GetTransform()->GetWorldPosition() + glm::vec3(posId.x * m_tileSize, posId.y * m_tileSize, 0.0f);
-}
-
-bool qbert::GridComponent::IsTileOccupiedByBlock(glm::ivec2 posId)
-{
-	if (!IsValidTileIndex(posId)) return true;
-	return m_blocks[posId.y][posId.x].occupant;
-}
-
-void qbert::GridComponent::ReserveTile(glm::ivec2)
-{
-
-}
-
-
 
 qbert::GridComponent::GridComponent(dae::GameObject& owner, const std::string& path):
-	ObjectComponent(owner),
-	m_tileXCount(),
-	m_tileYCount(),
-	m_tileSize()
+	ObjectComponent(owner)
 {
 	std::ifstream file(path);
 	if (file.is_open()) {
 		auto data = nlohmann::json::parse(file);
-		LoadMap(path);
+		LoadMap(data);
+	}
+	else {
+		LOGLN("Failed to open : " << path);
 	}
 }
-
-void qbert::GridComponent::LoadMap(const nlohmann::json& data)
+void qbert::GridComponent::CreateTile(int x , int y)
 {
 	dae::Scene* currentScene = dae::ServiceLocator<dae::SceneManager>::Get().GetActiveScene();
 	if (!currentScene) return;
+	const float xPos{ float(x * m_tileSize * tilePixelSizeY) };
+	const float yPos{ float(y * m_tileSize * tilePixelSizeY) };
 
-	m_tileSize = data["tileSize"];
-	m_tileXCount = data["width"];
-	m_tileYCount = data["height"];
+	auto obj = currentScene->CreateGameObject();
+	obj->SetParent(GetOwner());
+	obj->GetTransform()->SetLocalPosition(xPos,yPos);
+	obj->GetTransform()->SetLocalRotation(-45.0f);
 
-	auto tiles = data["tiles"];
-	m_tiles = std::vector<std::vector<Tile>>(m_tileYCount, std::vector<Tile>(m_tileXCount));
-	m_blocks = std::vector<std::vector<Tile>>(m_tileYCount, std::vector<Tile>(m_tileXCount));
+	const auto renderComp = obj->AddComponent<dae::RenderComponent>("Qbert Cubes.png");
+	renderComp->SetSourceRectangle(0.0f,0.0f, tilePixelSizeX, tilePixelSizeY);
+	renderComp->SetDestinationRectangle(0.0f, 0.0f, float(tilePixelSizeX * m_tileSize), float(tilePixelSizeY * m_tileSize));
+	
+	objects[y][x] = obj;
+}
+void qbert::GridComponent::CreateTiles(const nlohmann::json& data)
+{
+	const auto tiles = data["tiles"];
 
 	for (int y = 0; y < m_tileYCount; y++)
 	{
@@ -117,36 +84,20 @@ void qbert::GridComponent::LoadMap(const nlohmann::json& data)
 		{
 			if (tiles[y][x] == 1)
 			{
-				//float xPos{ float(x * m_tileSize) };
-				//float yPos{ float(y * m_tileSize) };
-				//dae::GameObject* obj = dae::PrefabFactory::Get().Instantiate(*currentScene,"IceBlock",glm::vec3(xPos,yPos,0));
-				//obj->SetParent(m_owner);
-				//if (auto animComp = obj->GetComponent<dae::AnimationComponent>(); animComp) {
-				//	animComp->PlayAnimation("Idle");
-				//}
-				//if (auto renderComp = obj->GetComponent<dae::RenderComponent>(); renderComp) {
-				//	renderComp->SetDestinationRectangle(0.0f,0.0f,float(m_tileSize),float(m_tileSize));
-				//}
-				//m_blocks[y][x].occupant = obj;
-			}
-			else
-			{
-				// empty
+				CreateTile(x,y);
 			}
 		}
 	}
+}
+void qbert::GridComponent::LoadMap(const nlohmann::json& data)
+{
 
-	const float scale{ m_tileSize / float(ORIGINAL_PIXEL_COUNT_BlOCK) };
-	const float offset{ float(ORIGINAL_PIXEL_COUNT_BORDER) * scale };
+	m_tileSize = data["tileSize"];
+	const auto tiles = data["tiles"];
 
-	if (auto renderComp = GetOwner()->GetComponent<dae::RenderComponent>(); renderComp) {
+	m_tileYCount = (int)tiles.size();
+	m_tileXCount = (int)tiles[0].size();
 
-		auto srcRect = renderComp->GetSourceRectangle();
-		renderComp->SetDestinationRectangle({
-			srcRect.x - offset,
-			srcRect.y - offset,
-			srcRect.width * scale,
-			srcRect.height * scale,
-			});
-	}
+	objects = std::vector<std::vector<dae::GameObject*>>(m_tileYCount, std::vector<dae::GameObject*>(m_tileXCount));
+	CreateTiles(data);
 }

@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "Texture2D.h"
 #include "Font.h"
+#include "../Utils.h"
 
 namespace fs = std::filesystem;
 

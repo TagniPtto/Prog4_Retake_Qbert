@@ -35,7 +35,6 @@ namespace qbert {
 			GridComponent* grid = nullptr);
 	public:
 		bool IsMoving();
-		bool RequestMove(glm::ivec2 direction);
 		void Update() override;
 
 	};

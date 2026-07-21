@@ -66,9 +66,9 @@ namespace dae {
 		void AddAnimationSequence(std::string name,const Rect& sourceRect, int rows, int columns, int sequenceStart, int sequenceLength, float timePerFrame, AnimationSequence::AnimationPlayBack playback = AnimationSequence::AnimationPlayBack::Normal);
 		void AddAnimationSequence(std::string name,AnimationSequence animSeq);
 	private:
+		RenderComponent* m_pRenderComponent{};
 		AnimationSequence* m_currentSequence;
 		std::unordered_map<std::string,AnimationSequence> m_sequences;
-		RenderComponent* m_pRenderComponent{};
 	};
 
 }

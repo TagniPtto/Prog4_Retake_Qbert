@@ -9,7 +9,7 @@ if(EMSCRIPTEN)
 else()
   set(ENGINE_NAME minigin)
   set(APP_NAME qbert)
-  set(APP_PARAM WIN32)
+  set(APP_PARAM)
 endif()
 
 

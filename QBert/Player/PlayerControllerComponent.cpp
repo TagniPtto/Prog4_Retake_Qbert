@@ -96,3 +96,6 @@ qbert::PlayerControllerComponent::PlayerControllerComponent(dae::GameObject& paw
 		dae::InputTriggerType::Held
 	);
 }
+
+void qbert::PlayerControllerComponent::Move(glm::vec2)
+{}

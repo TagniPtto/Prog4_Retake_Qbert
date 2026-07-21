@@ -7,41 +7,33 @@
 #include <string>
 #include <nlohmann/json.hpp>
 
-namespace qbert {
-	struct Tile {
-		dae::GameObject* occupant;
-		glm::ivec2 posId;
-	};
+namespace qbert 
+{
 	class GridComponent final : public dae::ObjectComponent
 	{
 	private:
+		const static int tilePixelSizeX = 32;
+		const static int tilePixelSizeY = 32;
+
 		int m_tileXCount{};
 		int m_tileYCount{};
 
 		int m_tileSize{};
 
-		std::vector<std::vector<Tile>> m_tiles;
-		std::vector<std::vector<Tile>> m_blocks;
+		std::vector<std::vector<dae::GameObject*>> objects;
 
-		bool m_debugWindowOpen{true};
 	public:
 		~GridComponent() = default;
-		explicit GridComponent(dae::GameObject& owner, const std::string& path = "");
+		explicit GridComponent(dae::GameObject& owner, const std::string& path);
 
 	private:
 		bool IsValidTileIndex(glm::ivec2 index);
-
+		void CreateTiles(const nlohmann::json& data);
+		void CreateTile(int x, int y);
 
 	public: 
 		void Update() override;
 		void RenderUI() override;
-		void Render() const override;
-		
-		glm::ivec2 GetClosestAvailableTile(glm::vec3);
-		glm::vec3 GetTilePosition(glm::vec2) const;
-		bool IsTileOccupiedByBlock(glm::ivec2);
-		void ReserveTile(glm::ivec2);
-
 		void LoadMap(const nlohmann::json& data);
 
 	};

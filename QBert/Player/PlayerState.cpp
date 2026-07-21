@@ -52,26 +52,8 @@ namespace qbert
 		changeDirection(direction)
 	{}
 
-	void MoveState::OnEnter(PlayerStateComponent& stateComponent)
+	void MoveState::OnEnter(PlayerStateComponent&)
 	{
-		if (changeDirection == PlayerStateChange::MoveUp)
-		{
-			stateComponent.GetAnimationComponent()->PlayAnimation("MoveUp");
-			stateComponent.GetGridMovementComponent()->RequestMove(glm::ivec2(0,-1));
-		}
-		if (changeDirection == PlayerStateChange::MoveDown) {
-			stateComponent.GetAnimationComponent()->PlayAnimation("MoveDown");
-			stateComponent.GetGridMovementComponent()->RequestMove(glm::ivec2(0, 1));
-		}
-		if (changeDirection == PlayerStateChange::MoveLeft) {
-			stateComponent.GetAnimationComponent()->PlayAnimation("MoveLeft");
-			stateComponent.GetGridMovementComponent()->RequestMove(glm::ivec2(-1, 0));
-		}
-
-		if (changeDirection == PlayerStateChange::MoveRight) {
-			stateComponent.GetAnimationComponent()->PlayAnimation("MoveRight");
-			stateComponent.GetGridMovementComponent()->RequestMove(glm::ivec2(1, 0));
-		}
 
 	}
 	
