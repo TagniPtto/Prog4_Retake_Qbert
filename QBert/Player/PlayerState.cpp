@@ -48,8 +48,7 @@ namespace qbert
 
 
 
-	MoveState::MoveState(PlayerStateChange direction):
-		changeDirection(direction)
+	MoveState::MoveState(PlayerStateChange)
 	{}
 
 	void MoveState::OnEnter(PlayerStateComponent&)

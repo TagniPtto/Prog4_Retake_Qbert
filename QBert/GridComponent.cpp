@@ -24,17 +24,6 @@ bool qbert::GridComponent::IsValidTileIndex(glm::ivec2 index)
 
 void qbert::GridComponent::Update()
 {
-	GetOwner()->GetTransform()->Rotate(-1.0f);
-	for (auto& obje : objects)
-	{
-		for (auto& obj : obje)
-		{
-			if (obj) {
-
-			obj->GetTransform()->Rotate(1.0f);
-			}
-		}
-	}
 }
 
 void qbert::GridComponent::RenderUI()
@@ -66,7 +55,6 @@ void qbert::GridComponent::CreateTile(int x , int y)
 	auto obj = currentScene->CreateGameObject();
 	obj->SetParent(GetOwner());
 	obj->GetTransform()->SetLocalPosition(xPos,yPos);
-	obj->GetTransform()->SetLocalRotation(-45.0f);
 
 	const auto renderComp = obj->AddComponent<dae::RenderComponent>("Qbert Cubes.png");
 	renderComp->SetSourceRectangle(0.0f,0.0f, tilePixelSizeX, tilePixelSizeY);

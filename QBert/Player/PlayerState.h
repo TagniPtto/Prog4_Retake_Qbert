@@ -42,7 +42,6 @@ namespace qbert
 
 
 	class MoveState : public PlayerState {
-		PlayerStateChange changeDirection;
 	public:
 		explicit MoveState(PlayerStateChange direction);
 		virtual ~MoveState() = default;

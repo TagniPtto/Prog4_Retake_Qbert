@@ -18,7 +18,6 @@ void qbert::Scene01::Initialize()
 	{
 		const auto object = CreateGameObject();
 		object->GetTransform()->SetLocalPosition(400, 200, 0);
-		object->GetTransform()->SetLocalRotation(45.0f);
 		//object->AddComponent<dae::RenderComponent>("Qbert Cubes.png");
 		object->AddComponent<qbert::GridComponent>("Data/Maps/Map01.json");
 	}
