@@ -3,69 +3,40 @@
 #include <InputSystem/InputTypes.h>
 namespace qbert
 {
-	class PlayerStateComponent;
+	class PlayerControllerComponent;
 
-
-	enum class PlayerStateChange {
-		Idle,
-		MoveUp,
-		MoveDown,
-		MoveLeft,
-		MoveRight,
-		Push,
-		Death,
-	};
-
-
-	class PlayerState {
+	class IPlayerState {
 	public:
-		virtual ~PlayerState() = default;
+		virtual ~IPlayerState() = default;
 
-		virtual void OnEnter(PlayerStateComponent& stateComponent);
-		virtual void OnExit(PlayerStateComponent& stateComponent);
+		virtual void OnEnter(PlayerControllerComponent& stateComponent);
+		virtual void OnExit(PlayerControllerComponent& stateComponent);
 
-		virtual std::unique_ptr<PlayerState> Update(PlayerStateComponent& stateComponent);
-		virtual std::unique_ptr<PlayerState> HandleRequest(
-			PlayerStateComponent& stateComponent,
-			PlayerStateChange change) = 0;
+		virtual std::unique_ptr<IPlayerState> Update(PlayerControllerComponent& stateComponent);
+		virtual std::unique_ptr<IPlayerState> HandleRequest(PlayerControllerComponent&) = 0;
 	};
 
 
-	class IdleState : public PlayerState {
+	class IdleState : public IPlayerState {
 	public:
 		virtual ~IdleState() = default;
-		virtual void OnEnter(PlayerStateComponent& stateComponent) override;
-		virtual std::unique_ptr<PlayerState> HandleRequest(
-			PlayerStateComponent& stateComponent, 
-			PlayerStateChange change)override;
+		virtual void OnEnter(PlayerControllerComponent& stateComponent) override;
+		virtual std::unique_ptr<IPlayerState> HandleRequest(PlayerControllerComponent&) override;
 	};
 
 
-	class MoveState : public PlayerState {
+	class MoveState : public IPlayerState {
 	public:
-		explicit MoveState(PlayerStateChange direction);
 		virtual ~MoveState() = default;
-		virtual void OnEnter(PlayerStateComponent& stateComponent) override;
-		virtual std::unique_ptr<PlayerState> Update(PlayerStateComponent& stateComponent) override;
-		virtual std::unique_ptr<PlayerState> HandleRequest(
-			PlayerStateComponent& stateComponent, 
-			PlayerStateChange change) override;
-	};
-	class PushState : public PlayerState {
-	public:
-		virtual ~PushState() = default;
-		virtual void OnEnter(PlayerStateComponent& stateComponent) override;
-		virtual std::unique_ptr<PlayerState> HandleRequest(
-			PlayerStateComponent& stateComponent,
-			PlayerStateChange change)override;
+		virtual void OnEnter(PlayerControllerComponent& stateComponent) override;
+		virtual std::unique_ptr<IPlayerState> Update(PlayerControllerComponent& stateComponent) override;
+		virtual std::unique_ptr<IPlayerState> HandleRequest(PlayerControllerComponent&) override;
 	};
 
-	class DeadState : public PlayerState {
+	class DeadState : public IPlayerState {
 	public:
 		virtual ~DeadState() = default;
-		virtual void OnEnter(PlayerStateComponent& stateComponent) override;
-		virtual std::unique_ptr<PlayerState> HandleRequest(
-			PlayerStateComponent& stateComponent,
-			PlayerStateChange change)override;
+		virtual void OnEnter(PlayerControllerComponent& stateComponent) override;
+		virtual std::unique_ptr<IPlayerState> HandleRequest(PlayerControllerComponent&) override;
 	};
 }

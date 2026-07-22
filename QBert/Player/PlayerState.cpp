@@ -13,91 +13,48 @@
 
 namespace qbert 
 {
-	void PlayerState::OnEnter(PlayerStateComponent& )
+	void IPlayerState::OnEnter(PlayerControllerComponent&)
 	{}
-	void PlayerState::OnExit(PlayerStateComponent& )
+	void IPlayerState::OnExit(PlayerControllerComponent&)
 	{}
-	std::unique_ptr<PlayerState> PlayerState::Update(PlayerStateComponent&)
+	std::unique_ptr<IPlayerState> IPlayerState::Update(PlayerControllerComponent&)
 	{
 		return nullptr;
 	}
 
 
-	void IdleState::OnEnter(PlayerStateComponent& stateComponent)
+	void IdleState::OnEnter(PlayerControllerComponent&)
 	{
-		stateComponent.GetAnimationComponent()->PauseCurrentAnimation();
 	}
 
 
-	std::unique_ptr<PlayerState> IdleState::HandleRequest(
-		PlayerStateComponent&,
-		PlayerStateChange change)
+	std::unique_ptr<IPlayerState> IdleState::HandleRequest(PlayerControllerComponent&)
 	{
 
-		if (change == PlayerStateChange::MoveUp||
-			change == PlayerStateChange::MoveDown || 
-			change == PlayerStateChange::MoveLeft || 
-			change == PlayerStateChange::MoveRight ) {
-			return std::make_unique<MoveState>(change);
-		}
-		if (change == PlayerStateChange::Death) {
-			return std::make_unique<DeadState>();
-		}
-		return nullptr;
 	}
 
 
-
-	MoveState::MoveState(PlayerStateChange)
-	{}
-
-	void MoveState::OnEnter(PlayerStateComponent&)
+	void MoveState::OnEnter(PlayerControllerComponent&)
 	{
 
 	}
 	
-	std::unique_ptr<PlayerState> MoveState::Update(PlayerStateComponent& stateComp)
+	std::unique_ptr<IPlayerState> MoveState::Update(PlayerControllerComponent&)
 	{
-		if (!stateComp.GetGridMovementComponent()->IsMoving()) {
-			return std::make_unique<IdleState>();
-		}
 		return nullptr;
 	}
 
-	std::unique_ptr<PlayerState> MoveState::HandleRequest(
-		PlayerStateComponent&,
-		PlayerStateChange change)
+	std::unique_ptr<IPlayerState> MoveState::HandleRequest(PlayerControllerComponent&)
 	{
-		if (change == PlayerStateChange::Death) {
-			return std::make_unique<DeadState>();
-		}
 		return nullptr;
 	}
 
 
-
-	void PushState::OnEnter(PlayerStateComponent& stateComponent)
+	void DeadState::OnEnter(PlayerControllerComponent&)
 	{
-		dae::ServiceLocator<dae::ISoundSystem>::Get().LoadAudio("Data/SFX/Push_Ice_Block.mp3", "PushIce");
-		stateComponent.GetGridInterationComponent()->RequestPush(glm::ivec2{});
 	}
 
-	std::unique_ptr<PlayerState> PushState::HandleRequest(PlayerStateComponent&, PlayerStateChange change)
-	{
-		if (change == PlayerStateChange::Death) {
-			return std::unique_ptr<DeadState>();
-		}
-		return nullptr;
-	}
-
-	void DeadState::OnEnter(PlayerStateComponent& stateComponent)
-	{
-		stateComponent.GetAnimationComponent()->PlayAnimation("Death");
-	}
-
-	std::unique_ptr<PlayerState> DeadState::HandleRequest(
-		PlayerStateComponent& , 
-		PlayerStateChange)
+	std::unique_ptr<IPlayerState> DeadState::HandleRequest(PlayerControllerComponent&)
 	{
 		return nullptr;
 	}

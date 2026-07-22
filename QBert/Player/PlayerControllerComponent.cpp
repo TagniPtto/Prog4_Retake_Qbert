@@ -1,12 +1,9 @@
 #include "PlayerControllerComponent.h"
-#include "PlayerStateComponent.h"
+#include <GameObject.h>
 
 #include <ServiceLocator.h>
 #include <InputSystem/InputManager.h>
 #include <InputSystem/InputTypes.h>
-
-
-#include "PlayerCommands.h"
 
 
 #include <InputSystem/IInputCommand.h>

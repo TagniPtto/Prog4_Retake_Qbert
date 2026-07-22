@@ -3,7 +3,6 @@
 #include <memory>
 #include <vector>
 
-#include "EventSystem/Subject.h"
 #include "Components/TransformComponent.h"
 
 namespace dae
@@ -11,7 +10,7 @@ namespace dae
 
 	template<typename T>
 	concept Component = std::derived_from<T, ObjectComponent>;
-	class GameObject final : public Subject
+	class GameObject final 
 	{
 		GameObject* m_parent{ nullptr };
 		std::vector<GameObject*> m_children{};
