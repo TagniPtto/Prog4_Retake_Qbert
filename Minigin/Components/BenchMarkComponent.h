@@ -43,7 +43,6 @@ namespace dae {
 
 	public:
 		explicit BenchMarkComponent(dae::GameObject& owner);
-		void RenderUI() override;
 
 	private:
 

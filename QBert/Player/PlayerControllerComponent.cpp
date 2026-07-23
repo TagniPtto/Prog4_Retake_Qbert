@@ -2,6 +2,7 @@
 #include <GameObject.h>
 
 #include <ServiceLocator.h>
+#include <SceneSystem/SceneManager.h>
 #include <InputSystem/InputManager.h>
 #include <InputSystem/InputTypes.h>
 
@@ -92,7 +93,30 @@ qbert::PlayerControllerComponent::PlayerControllerComponent(dae::GameObject& paw
 		dae::KeyboardInput::KeyD,
 		dae::InputTriggerType::Held
 	);
+
+	
 }
 
 void qbert::PlayerControllerComponent::Move(glm::vec2)
 {}
+
+void qbert::PlayerControllerComponent::ChangeState(std::unique_ptr<IPlayerState> newState)
+{
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->OnExit(*this);
+	}
+	m_pCurrentState = std::move(newState);
+	if (m_pCurrentState)
+	{
+		m_pCurrentState->OnEnter(*this);
+	}
+}
+
+void qbert::PlayerControllerComponent::Update()
+{
+	if (m_pCurrentState) {
+		auto nextState = m_pCurrentState->Update(*this);
+		if (nextState) ChangeState(std::move(nextState));
+	}
+}

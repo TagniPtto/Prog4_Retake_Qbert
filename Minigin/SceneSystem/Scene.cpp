@@ -1,6 +1,7 @@
 #include "Scene.h"
 #include "Scene.h"
 #include "Scene.h"
+#include "Scene.h"
 #include <algorithm>
 #include "GameObject.h"
 #include "Scene.h"
@@ -50,8 +51,17 @@ void dae::Scene::DestroyMarkedObjects()
 	);
 }
 
-void dae::Scene::Initialize()
-{}
+void dae::Scene::Load()
+{
+}
+
+void dae::Scene::Start()
+{
+	for (auto& object : m_objects)
+	{
+		object->Start();
+	}
+}
 
 void Scene::Update()
 {
@@ -67,14 +77,6 @@ void Scene::Render() const
 	for (const auto& object : m_objects)
 	{
 		object->Render();
-	}
-}
-
-void dae::Scene::RenderUI()
-{
-	for (const auto& object : m_objects)
-	{
-		object->RenderUI();
 	}
 }
 

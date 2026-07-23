@@ -18,6 +18,7 @@ namespace dae
 		Scene* GetScene(int index) const;
 		Scene* GetActiveScene() const;
 
+		void Start();
 		void Update();
 		void Render();
 

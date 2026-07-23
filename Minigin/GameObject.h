@@ -12,6 +12,7 @@ namespace dae
 	concept Component = std::derived_from<T, ObjectComponent>;
 	class GameObject final 
 	{
+	private:
 		GameObject* m_parent{ nullptr };
 		std::vector<GameObject*> m_children{};
 
@@ -26,9 +27,9 @@ namespace dae
 		bool IsChildOf(GameObject* potentialParent);
 
 	public:
+		void Start();
 		void Update();
 		void Render() const;
-		void RenderUI();
 
 		GameObject* GetParent() const;
 		void SetParent(GameObject* newParent, bool keepWorldPosition = false);
@@ -38,7 +39,7 @@ namespace dae
 
 		TransformComponent* GetTransform();
 
-
+		void RemoveMarkedComponents();
 		void MarkForDestruction();
 		bool IsMarkedForDestruction() const;
 		

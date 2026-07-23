@@ -1,4 +1,6 @@
 #include "GameObject.h"
+#include "GameObject.h"
+#include "GameObject.h"
 #include <string>
 #include <numbers>
 #include "GameObject.h"
@@ -44,11 +46,19 @@ bool dae::GameObject::IsChildOf(GameObject* potentialParent)
 }
 
 
+void dae::GameObject::Start()
+{
+	for (int i{}; i < (int)m_components.size(); i++) {
+		m_components[i]->Start();
+	}
+}
+
 void dae::GameObject::Update()
 {
 	for (int i{}; i < (int)m_components.size(); i++) {
 		m_components[i]->Update();
 	}
+	RemoveMarkedComponents();
 }
 
 void dae::GameObject::Render() const
@@ -58,12 +68,6 @@ void dae::GameObject::Render() const
 	}
 }
 
-void dae::GameObject::RenderUI()
-{
-	for (int i{}; i < (int)m_components.size(); i++) {
-		m_components[i]->RenderUI();
-	}
-}
 
 dae::GameObject* dae::GameObject::GetParent() const
 {
@@ -109,10 +113,25 @@ dae::TransformComponent* dae::GameObject::GetTransform()
 	return m_transform.get();
 }
 
+void dae::GameObject::RemoveMarkedComponents()
+{
+	m_components.erase(
+		std::remove_if(
+			m_components.begin(),
+			m_components.end(),
+			[](const auto& ptr) { return ptr->IsMarkedForDestruction(); }
+		),
+		m_components.end()
+	);
+}
+
 
 void dae::GameObject::MarkForDestruction()
 {
 	m_markedForDestruction = true;
+	for (auto& comp: m_components) {
+		comp->MarkForDestruction();
+	}
 }
 
 bool dae::GameObject::IsMarkedForDestruction() const

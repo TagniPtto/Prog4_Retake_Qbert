@@ -1,12 +1,20 @@
 #include "SceneManager.h"
 #include "SceneManager.h"
 #include "SceneManager.h"
+#include "SceneManager.h"
 #include "Scene.h"
 
 #include <nlohmann/json.hpp>
 #include <fstream>
 
 #include "../ServiceLocator.h"
+
+void dae::SceneManager::Start()
+{
+	if (const auto& scene = m_scenes[m_activeSceneIndex]; scene) {
+		scene->Start();
+	}
+}
 
 void dae::SceneManager::Update()
 {
@@ -19,7 +27,6 @@ void dae::SceneManager::Render()
 {
 	if (const auto& scene = m_scenes[m_activeSceneIndex]; scene) {
 		scene->Render();
-		scene->RenderUI();
 	}
 }
 
@@ -27,7 +34,7 @@ bool dae::SceneManager::LoadScene(unsigned int index)
 {
 	if (m_scenes.size() > index && index >= 0)
 	{
-		m_scenes[m_activeSceneIndex]->Initialize();
+		m_scenes[m_activeSceneIndex]->Load();
 		m_activeSceneIndex = index;
 		return true;
 	}

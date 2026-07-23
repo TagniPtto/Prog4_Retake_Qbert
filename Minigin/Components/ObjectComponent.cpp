@@ -1,25 +1,36 @@
 #include "ObjectComponent.h"
+#include "ObjectComponent.h"
+#include "ObjectComponent.h"
+#include "ObjectComponent.h"
 #include "GameObject.h"
 
-namespace dae {
-	ObjectComponent::ObjectComponent(dae::GameObject& owner) : m_owner(&owner)
-	{}
 
-	dae::GameObject* ObjectComponent::GetOwner() const
-	{
-		return m_owner;
-	}
+dae::ObjectComponent::ObjectComponent(dae::GameObject& owner) : m_owner(&owner)
+{}
 
-	void ObjectComponent::Render() const
-	{}
+dae::GameObject* dae::ObjectComponent::GetOwner() const
+{
+	return m_owner;
+}
 
-	void ObjectComponent::RenderUI()
-	{}
+void dae::ObjectComponent::Render() const
+{}
 
-	void ObjectComponent::Update()
-	{}
+void dae::ObjectComponent::Start()
+{}
 
-	void ObjectComponent::FixedUpdate(float)
-	{}
+void dae::ObjectComponent::Update()
+{}
 
+void dae::ObjectComponent::FixedUpdate(float)
+{}
+
+void dae::ObjectComponent::MarkForDestruction()
+{
+	m_markedForDestruction = true;
+}
+
+bool dae::ObjectComponent::IsMarkedForDestruction() const
+{
+	return m_markedForDestruction;
 }

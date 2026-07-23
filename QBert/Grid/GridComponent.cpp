@@ -7,6 +7,7 @@
 #include <Components/RenderComponent.h>
 #include <Components/AnimationComponent.h>
 #include <Renderer.h>
+#include "GridEntityManagerComponent.h"
 
 #include <imgui.h>
 #include <nlohmann/json.hpp>
@@ -15,7 +16,7 @@
 #include <Utils.h>
 
 
-dae::GameObject* qbert::GridComponent::GetTileObject(glm::ivec2 index)
+dae::GameObject* qbert::GridComponent::GetTileObject(glm::ivec2 index) const
 {
 	dae::GameObject* result{ nullptr };
 	if (IsValidTileIndex(index)) 
@@ -28,16 +29,22 @@ dae::GameObject* qbert::GridComponent::GetTileObject(glm::ivec2 index)
 	return result;
 }
 
-glm::vec2 qbert::GridComponent::GetTileWorldLocation(glm::ivec2 index)
+glm::vec3 qbert::GridComponent::GetTileWorldLocation(glm::ivec2 index)const
 {
-	glm::vec2 result{};
+	glm::vec3 result{};
 	if (auto tile = GetTileObject(index); tile) {
 		result = tile->GetTransform()->GetWorldPosition();
 	}
 	return result;
 }
 
-bool qbert::GridComponent::IsValidTileIndex(glm::ivec2 index)
+glm::ivec2 qbert::GridComponent::GetClosestValidTile(glm::ivec2) const
+{
+	LOGLN("Not implemented yet returning unprocessed index");
+	return glm::ivec2();
+}
+
+bool qbert::GridComponent::IsValidTileIndex(glm::ivec2 index) const
 {
 	return !(index.x >= m_tileXCount || index.x < 0 || index.y >= m_tileYCount || index.y < 0);
 }
@@ -47,37 +54,10 @@ bool qbert::GridComponent::IsValidTileIndex(glm::ivec2 index)
 
 void qbert::GridComponent::Update()
 {
-//	auto& globalEventQue = dae::ServiceLocator<dae::EventQueue>::Get();
-	for (auto& entity : m_entities) {
-		for (auto& other : m_entities) 
-		{
-			if (entity != other && entity.second == other.second) 
-			{
-				//globalEventQue.SendEvent();
-			}
-		}
-	}
-}
-
-void qbert::GridComponent::RenderUI()
-{
-	ImGui::Begin("GridObjectWindow");
-	ImGui::End();
-}
 
 
-qbert::GridComponent::GridComponent(dae::GameObject& owner, const std::string& path):
-	ObjectComponent(owner)
-{
-	std::ifstream file(path);
-	if (file.is_open()) {
-		auto data = nlohmann::json::parse(file);
-		LoadMap(data);
-	}
-	else {
-		LOGLN("Failed to open : " << path);
-	}
 }
+
 void qbert::GridComponent::CreateTile(int x , int y)
 {
 	dae::Scene* currentScene = dae::ServiceLocator<dae::SceneManager>::Get().GetActiveScene();
@@ -98,6 +78,7 @@ void qbert::GridComponent::CreateTile(int x , int y)
 	
 	m_tiles[y*m_tileXCount + x] = obj;
 }
+
 void qbert::GridComponent::CreateTiles(const nlohmann::json& data)
 {
 	const auto tiles = data["tiles"];
@@ -113,26 +94,25 @@ void qbert::GridComponent::CreateTiles(const nlohmann::json& data)
 		}
 	}
 }
-void qbert::GridComponent::LoadMap(const nlohmann::json& data)
+
+qbert::GridComponent::GridComponent(dae::GameObject& owner, const std::string& path):
+	ObjectComponent(owner)
 {
+
+	std::ifstream file(path);
+	if (!file.is_open()) 
+	{
+		LOGLN("Failed to open : " << path);
+		return;
+	}
+	auto data = nlohmann::json::parse(file);
 
 	m_tileSize = data["tileSize"];
 	const auto tiles = data["tiles"];
 
 	m_tileYCount = (int)tiles.size();
-	m_tileXCount = (int)tiles[0].size(); 
+	m_tileXCount = (int)tiles[0].size();
 
-	m_tiles		= std::vector<dae::GameObject*>(m_tileYCount * m_tileXCount);
-	m_entities	= std::vector<GridEntity>(m_tileYCount * m_tileXCount);
+	m_tiles = std::vector<dae::GameObject*>(m_tileYCount * m_tileXCount);
 	CreateTiles(data);
-}
-
-void qbert::GridComponent::AddEntity(dae::GameObject* entity)
-{
-	m_entities.emplace_back(entity,0);
-
-	auto newPosition = glm::vec3{ GetTileWorldLocation({}) ,0 };
-	newPosition.x += 8;
-	newPosition.y += 8;
-	entity->GetTransform()->SetLocalPosition(newPosition);
 }

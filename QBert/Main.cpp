@@ -10,9 +10,9 @@
 #include "Levels/Level01.h"
 
 #include "Player/PlayerControllerComponent.h"
-#include "GridMovementComponent.h"
-#include "GridInteractionComponent.h"
-#include "GridComponent.h"
+#include "Grid/GridMovementComponent.h"
+#include "Grid/GridInteractionComponent.h"
+#include "Grid/GridComponent.h"
 #include <SceneSystem/SceneManager.h>
 #include <ServiceLocator.h>
 #include <filesystem>

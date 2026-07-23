@@ -9,6 +9,6 @@ namespace qbert
 	public:
 		Scene01() = default;
 		virtual ~Scene01() = default;
-		virtual void Initialize() override;
+		virtual void Load() override;
 	};
 }

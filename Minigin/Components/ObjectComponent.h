@@ -10,6 +10,7 @@ namespace dae {
 	{
 	private:
 		dae::GameObject* m_owner;
+		bool m_markedForDestruction{ false };
 
 	protected:
 		explicit ObjectComponent(dae::GameObject& owner);
@@ -27,9 +28,13 @@ namespace dae {
 		dae::GameObject* GetOwner() const;
 
 		virtual void Render() const;
-		virtual void RenderUI();
+		virtual void Start();
 		virtual void Update();
 		virtual void FixedUpdate(float);
+
+		void MarkForDestruction();
+		bool IsMarkedForDestruction() const;
+
 	};
 }
 

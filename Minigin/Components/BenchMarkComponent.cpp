@@ -17,67 +17,67 @@ dae::BenchMarkComponent::BenchMarkComponent(dae::GameObject& owner):
 }
 
 
-void dae::BenchMarkComponent::RenderUI()
-{
-	ImGui::Begin("Exercise1");
-	if (ImGui::Button("Thrash the cache with int"))
-	{
-		SampleExercise(0, 10);
-	}
-	ImGui::PlotConfig conf1;
-	conf1.values.xs = nullptr;
-	conf1.values.ys = resultEx1.data();
-	conf1.values.count = static_cast<int>(resultEx1.size());
-	conf1.scale.min = 0.0f;
-	conf1.scale.max = 10000.0f;
-	conf1.tooltip.show = true;
-	conf1.frame_size = ImVec2(400, 200);
-
-
-	ImGui::Plot("plot1", conf1);
-	ImGui::End();
-
-
-
-	ImGui::Begin("Exercise2", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-	if (ImGui::Button("Thrash the cach with Gameobject3d"))
-	{
-		SampleExercise(1, 10);
-	}
-	if (ImGui::Button("Thrash the cach with Gameobject3dAlt"))
-	{
-		SampleExercise(2, 10);
-	}
-
-	const float* y_data[] = { resultEx2.data(), resultEx2Alt.data() };
-	static ImU32 colors[2] = { ImColor(0, 255, 0), ImColor(255, 0, 0) };
-	static uint32_t selection_start = 0, selection_length = 0;
-
-
-	// Draw first plot with multiple sources
-	ImGui::PlotConfig conf;
-	conf.values.xs = xData.data();
-	conf.values.count = int(xData.size());
-	conf.values.ys_list = y_data;
-	conf.values.ys_count = 2;
-	conf.values.colors = colors;
-	conf.grid_x.show = true;
-	conf.grid_x.size = 128;
-	conf.grid_x.subticks = 4;
-	conf.grid_y.show = true;
-	conf.grid_y.size = 0.5f;
-	conf.grid_y.subticks = 5;
-	conf.selection.show = true;
-	conf.selection.start = &selection_start;
-	conf.selection.length = &selection_length;
-	conf.scale.min = 0.0f;
-	conf.scale.max = 10000.0f;
-	conf.tooltip.show = true;
-	conf.frame_size = ImVec2(400, 200);
-	ImGui::Plot("plot2", conf);
-
-	ImGui::End();
-}
+//void dae::BenchMarkComponent::RenderUI()
+//{
+//	ImGui::Begin("Exercise1");
+//	if (ImGui::Button("Thrash the cache with int"))
+//	{
+//		SampleExercise(0, 10);
+//	}
+//	ImGui::PlotConfig conf1;
+//	conf1.values.xs = nullptr;
+//	conf1.values.ys = resultEx1.data();
+//	conf1.values.count = static_cast<int>(resultEx1.size());
+//	conf1.scale.min = 0.0f;
+//	conf1.scale.max = 10000.0f;
+//	conf1.tooltip.show = true;
+//	conf1.frame_size = ImVec2(400, 200);
+//
+//
+//	ImGui::Plot("plot1", conf1);
+//	ImGui::End();
+//
+//
+//
+//	ImGui::Begin("Exercise2", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+//	if (ImGui::Button("Thrash the cach with Gameobject3d"))
+//	{
+//		SampleExercise(1, 10);
+//	}
+//	if (ImGui::Button("Thrash the cach with Gameobject3dAlt"))
+//	{
+//		SampleExercise(2, 10);
+//	}
+//
+//	const float* y_data[] = { resultEx2.data(), resultEx2Alt.data() };
+//	static ImU32 colors[2] = { ImColor(0, 255, 0), ImColor(255, 0, 0) };
+//	static uint32_t selection_start = 0, selection_length = 0;
+//
+//
+//	// Draw first plot with multiple sources
+//	ImGui::PlotConfig conf;
+//	conf.values.xs = xData.data();
+//	conf.values.count = int(xData.size());
+//	conf.values.ys_list = y_data;
+//	conf.values.ys_count = 2;
+//	conf.values.colors = colors;
+//	conf.grid_x.show = true;
+//	conf.grid_x.size = 128;
+//	conf.grid_x.subticks = 4;
+//	conf.grid_y.show = true;
+//	conf.grid_y.size = 0.5f;
+//	conf.grid_y.subticks = 5;
+//	conf.selection.show = true;
+//	conf.selection.start = &selection_start;
+//	conf.selection.length = &selection_length;
+//	conf.scale.min = 0.0f;
+//	conf.scale.max = 10000.0f;
+//	conf.tooltip.show = true;
+//	conf.frame_size = ImVec2(400, 200);
+//	ImGui::Plot("plot2", conf);
+//
+//	ImGui::End();
+//}
 
 
 void dae::BenchMarkComponent::SampleExercise(int index,int amount)

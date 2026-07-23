@@ -145,7 +145,7 @@ dae::Minigin::~Minigin()
 void dae::Minigin::Run(const std::function<void()>& load)
 {
 	load();
-	
+	m_pSceneManager->Start();
 
 #ifndef __EMSCRIPTEN__
 

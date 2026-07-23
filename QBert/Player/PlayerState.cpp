@@ -1,14 +1,10 @@
 #include "PlayerState.h"
-#include "PlayerStateComponent.h"
-
-#include "PlayerCommands.h"
-
 
 #include "ServiceLocator.h"
+#include "PlayerControllerComponent.h"
 #include <SoundSystem/ISoundSystem.h>
 #include <Components/AnimationComponent.h>
-#include "../GridMovementComponent.h"
-#include "../GridInteractionComponent.h"
+#include "../Events/QbertEvents.h"
 
 
 namespace qbert 
@@ -54,8 +50,9 @@ namespace qbert
 	{
 	}
 
-	std::unique_ptr<IPlayerState> DeadState::HandleRequest(PlayerControllerComponent&)
+	std::unique_ptr<IPlayerState> DeadState::HandleRequest(PlayerControllerComponent& controller)
 	{
+		//controller.NotifyObservers();
 		return nullptr;
 	}
 }

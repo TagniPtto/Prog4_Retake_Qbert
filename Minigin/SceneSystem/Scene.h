@@ -20,10 +20,10 @@ namespace dae
 		void RemoveAll();
 		void DestroyMarkedObjects();
 
-		virtual void Initialize();
+		virtual void Load();
+		virtual void Start();
 		virtual void Update();
 		virtual void Render() const;
-		virtual void RenderUI();
 		
 		template<Component T>
 		T* FindComponent() const;
