@@ -23,6 +23,7 @@ bool qbert::GridMovementComponent::IsMoving() const
 
 void qbert::GridMovementComponent::Start()
 {
+    m_pTransform = GetOwner()->GetTransform();
     SetPositionWithVisualOffset(m_pGrid->GetTileWorldLocation(m_CurrentTile));
 }
 
@@ -48,8 +49,8 @@ void qbert::GridMovementComponent::Update()
 void qbert::GridMovementComponent::SetPositionWithVisualOffset(glm::vec3 tilePosition)
 {
     tilePosition.x += 16;
-    tilePosition.y -= 8;
-    GetOwner()->GetTransform()->SetLocalPosition(tilePosition);
+    tilePosition.y -= 16;
+    m_pTransform->SetLocalPosition(tilePosition);
 }
 
 void qbert::GridMovementComponent::SetTileIndex(glm::ivec2 pos)

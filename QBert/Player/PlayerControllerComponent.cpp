@@ -17,14 +17,15 @@ namespace qbert
 	{
 	private:
 		GridEntityComponent* entityComponent{};
+		glm::ivec2 direction{};
 	public:
-		explicit GridEntityMoveCommand(GridEntityComponent* entity) :
-			entityComponent(entity)
+		explicit GridEntityMoveCommand(GridEntityComponent* entity, glm::ivec2 dir) :
+			entityComponent(entity),direction(dir)
 		{}
 		virtual ~GridEntityMoveCommand() = default;
 		void Execute(dae::InputContext) override
 		{
-			entityComponent->RequestMove(glm::ivec2{1,0});
+			entityComponent->RequestMove(direction);
 		}
 	};
 	class MoveCommand : public dae::IInputCommand {
@@ -141,10 +142,28 @@ void qbert::PlayerControllerComponent::Start()
 		dae::KeyboardInput::KeyD,
 		dae::InputTriggerType::Held
 	);
-	auto gridEntityMoveCommand = std::make_shared<qbert::GridEntityMoveCommand>(m_pEntityComponent);
+	auto gridEntityMoveUpCommand = std::make_shared<qbert::GridEntityMoveCommand>(m_pEntityComponent, glm::ivec2{1,0});
+	auto gridEntityMoveDownCommand = std::make_shared<qbert::GridEntityMoveCommand>(m_pEntityComponent, glm::ivec2{-1,0});
+	auto gridEntityMoveRightCommand = std::make_shared<qbert::GridEntityMoveCommand>(m_pEntityComponent, glm::ivec2{0,1});
+	auto gridEntityMoveLeftCommand = std::make_shared<qbert::GridEntityMoveCommand>(m_pEntityComponent, glm::ivec2{0,-1});
 	inputSystem.BindCommand(
-		std::move(gridEntityMoveCommand),
+		std::move(gridEntityMoveUpCommand),
 		dae::InputValueType::Boolean,
 		dae::KeyboardInput::UpArrow,
+		dae::InputTriggerType::Held);
+	inputSystem.BindCommand(
+		std::move(gridEntityMoveDownCommand),
+		dae::InputValueType::Boolean,
+		dae::KeyboardInput::DownArrow,
+		dae::InputTriggerType::Held);
+	inputSystem.BindCommand(
+		std::move(gridEntityMoveLeftCommand),
+		dae::InputValueType::Boolean,
+		dae::KeyboardInput::LeftArrow,
+		dae::InputTriggerType::Held);
+	inputSystem.BindCommand(
+		std::move(gridEntityMoveRightCommand),
+		dae::InputValueType::Boolean,
+		dae::KeyboardInput::RightArrow,
 		dae::InputTriggerType::Held);
 }
