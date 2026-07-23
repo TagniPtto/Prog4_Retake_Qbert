@@ -7,6 +7,6 @@ Minigin is a very small project using [SDL3](https://www.libsdl.org/) and [glm](
 [![GitHub Release](https://img.shields.io/github/v/release/TagniPtto/Prog4_Retake_Qbert?logo=github&sort=semver)](https://github.com/TagniPtto/Programming4/releases/latest)
 
 
-## Pengo
+## QBert
 
 Still very much a work in progress
