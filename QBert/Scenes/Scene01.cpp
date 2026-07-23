@@ -20,7 +20,7 @@ void qbert::Scene01::Load()
 
 	const auto grid = CreateGameObject();
 	grid->GetTransform()->SetLocalPosition(400, 200, 0);
-	auto gridComponent = grid->AddComponent<qbert::GridComponent>("Data/Maps/Map01.json");
+	auto gridComponent = grid->AddComponent<qbert::GridComponent>("Map01.json");
 	auto gridEntityManagerComponent = grid->AddComponent<qbert::GridEntityManagerComponent>(*gridComponent);
 
 	

@@ -1,4 +1,5 @@
 ﻿#include <stdexcept>
+#include <fstream>
 #include <SDL3_ttf/SDL_ttf.h>
 #include "ResourceManager.h"
 #include "Renderer.h"
@@ -35,6 +36,21 @@ std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& fil
 	if(m_loadedFonts.find(key) == m_loadedFonts.end())
 		m_loadedFonts.insert(std::pair(key,std::make_shared<Font>(fullPath.string(), size)));
 	return m_loadedFonts.at(key);
+}
+
+nlohmann::json dae::ResourceManager::LoadMap(const std::string& file)
+{
+	const auto fullPath = m_dataPath / "Maps" / file;
+	const auto filename = fs::path(fullPath).filename().string();
+	if (m_loadedJson.find(filename) == m_loadedJson.end()) {
+		std::ifstream fileObject(fullPath);
+		if (!fileObject.is_open())
+		{
+			throw std::runtime_error(std::string("Failed to Load map: ") + filename);
+		}
+		m_loadedJson.insert(std::pair(filename, nlohmann::json::parse(fileObject)));
+	}
+	return m_loadedJson.at(filename);
 }
 
 void dae::ResourceManager::UnloadUnusedResources()

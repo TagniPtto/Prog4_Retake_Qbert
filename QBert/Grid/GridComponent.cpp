@@ -9,6 +9,8 @@
 #include <Renderer.h>
 #include "GridEntityManagerComponent.h"
 
+#include <ServiceLocator.h>
+#include <ResourceSystem/ResourceManager.h>
 #include <imgui.h>
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -98,17 +100,12 @@ void qbert::GridComponent::CreateTiles(const nlohmann::json& data)
 qbert::GridComponent::GridComponent(dae::GameObject& owner, const std::string& path):
 	ObjectComponent(owner)
 {
+	const auto data = dae::ServiceLocator<dae::ResourceManager>::Get().LoadMap(path);
+	if (data.empty()) {
 
-	std::ifstream file(path);
-	if (!file.is_open()) 
-	{
-		LOGLN("Failed to open : " << path);
-		return;
 	}
-	auto data = nlohmann::json::parse(file);
-
 	m_tileSize = data["tileSize"];
-	const auto tiles = data["tiles"];
+	const auto& tiles = data["tiles"];
 
 	m_tileYCount = (int)tiles.size();
 	m_tileXCount = (int)tiles[0].size();
