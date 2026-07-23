@@ -13,7 +13,3 @@ qbert::GridInteractionComponent::GridInteractionComponent(dae::GameObject& owner
         m_pGridComp = scene->FindComponent<qbert::GridComponent>();
     }
 }
-
-
-void qbert::GridInteractionComponent::RequestPush(glm::ivec2)
-{}

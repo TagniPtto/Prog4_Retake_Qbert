@@ -13,7 +13,5 @@ namespace qbert {
 		virtual ~GridInteractionComponent() = default;
 		explicit GridInteractionComponent(dae::GameObject& owner);
 
-		void RequestPush(glm::ivec2 direction);
-
 	};
 }

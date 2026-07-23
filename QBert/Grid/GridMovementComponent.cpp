@@ -1,5 +1,6 @@
 #include "GridMovementComponent.h"
 #include "GridComponent.h"
+#include "GridInteractionComponent.h"
 #include <GameObject.h>
 
 #include <TimeManager.h>
@@ -38,6 +39,8 @@ void qbert::GridMovementComponent::Update()
             m_IsMoving = false;
             m_CurrentTile = m_ToTile;
             SetPositionWithVisualOffset(m_pGrid->GetTileWorldLocation(m_CurrentTile));
+            //TODO Let Tiles know its been entered and exited . maybe use events here
+
         }
     }
 }

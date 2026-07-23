@@ -12,7 +12,6 @@
 namespace qbert 
 {
 
-	class GridEntityManagerComponent;
 	class GridComponent final : public dae::ObjectComponent
 	{
 		const static int tilePixelSizeX = 32;
@@ -24,7 +23,6 @@ namespace qbert
 		int m_tileSize{};
 
 		std::vector<dae::GameObject*>	m_tiles;
-		GridEntityManagerComponent* m_pEntityManager;
 	public:
 		dae::GameObject* GetTileObject(glm::ivec2 index)const;
 		glm::vec3 GetTileWorldLocation(glm::ivec2 index)const;
