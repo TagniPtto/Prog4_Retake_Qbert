@@ -9,26 +9,61 @@ qbert::GridMovementComponent::GridMovementComponent(dae::GameObject& owner, Grid
     m_pGrid(&grid)
 {}
 
+glm::ivec2 qbert::GridMovementComponent::GetCurrentTileIndex() const
+{
+    return m_CurrentTile;
+}
+
 bool qbert::GridMovementComponent::IsMoving() const
 { 
     return m_IsMoving;
 }
 
 
+void qbert::GridMovementComponent::Start()
+{
+    SetPositionWithVisualOffset(m_pGrid->GetTileWorldLocation(m_CurrentTile));
+}
+
 void qbert::GridMovementComponent::Update()
 {
+    if (m_IsMoving)
+    {
+        m_Progress += dae::Time::Get().GetDeltaTime() * m_Speed;
+        const auto tile1Pos = m_pGrid->GetTileWorldLocation(m_FromTile);
+        const auto tile2Pos = m_pGrid->GetTileWorldLocation(m_ToTile);
+        const auto newPosition = InterpolatePosition(tile1Pos, tile2Pos, m_Progress);
+        SetPositionWithVisualOffset(newPosition);
+        if (m_Progress > 1.0f) {
+            m_IsMoving = false;
+            m_CurrentTile = m_ToTile;
+            SetPositionWithVisualOffset(m_pGrid->GetTileWorldLocation(m_CurrentTile));
+        }
+    }
 }
 
-void qbert::GridMovementComponent::SetToTile(glm::ivec2 pos)
+void qbert::GridMovementComponent::SetPositionWithVisualOffset(glm::vec3 tilePosition)
+{
+    tilePosition.x += 16;
+    tilePosition.y -= 8;
+    GetOwner()->GetTransform()->SetLocalPosition(tilePosition);
+}
+
+void qbert::GridMovementComponent::SetTileIndex(glm::ivec2 pos)
 {
     m_pGrid->IsValidTileIndex(pos);
-    auto newPosition = m_pGrid->GetTileWorldLocation({});
-    newPosition.x += 8;
-    newPosition.y += 8;
-    GetOwner()->GetTransform()->SetLocalPosition(newPosition);
+
 }
 
-glm::vec2 qbert::GridMovementComponent::InterpolatePosition(glm::vec2 p1, glm::vec2 p2 , float t)
+void qbert::GridMovementComponent::MoveBetweenTiles(glm::ivec2 t1, glm::ivec2 t2)
+{
+    m_FromTile = t1;
+    m_ToTile = t2;
+    m_Progress = 0.0f;
+    m_IsMoving = true;
+}
+
+glm::vec3 qbert::GridMovementComponent::InterpolatePosition(glm::vec3 p1, glm::vec3 p2 , float t)
 {
     return p1 + (p2 - p1) * t;
 }

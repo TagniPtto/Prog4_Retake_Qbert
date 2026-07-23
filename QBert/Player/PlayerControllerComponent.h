@@ -8,15 +8,15 @@
 namespace qbert {
 
 	class GameObject;
-	class GridMovementComponent;
-	class GridInteractionComponent;
+	class GridEntityComponent;
 	
 	class PlayerControllerComponent : public dae::ObjectComponent 
 	{
 	private:
+
+	private:
 		std::unique_ptr<IPlayerState> m_pCurrentState;
-		GridMovementComponent* m_pMovementComponent;
-		GridInteractionComponent* m_pInteractionComponent;
+		GridEntityComponent* m_pEntityComponent;
 
 	public:
 		explicit PlayerControllerComponent(dae::GameObject& pawn);
@@ -28,5 +28,6 @@ namespace qbert {
 	public:
 		void HandleRequest();
 		void Update() override;
+		void Start() override;
 	};
 }

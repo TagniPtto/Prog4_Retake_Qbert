@@ -15,6 +15,6 @@ namespace qbert {
 		virtual ~GridEntityManagerComponent() = default;
 		explicit GridEntityManagerComponent(dae::GameObject& owner,GridComponent& grid);
 
-		void RequestMove(GridEntityComponent* entity , glm::ivec2 direction);
+		bool RequestMove(GridEntityComponent* entity , glm::ivec2 direction);
 	};
 }

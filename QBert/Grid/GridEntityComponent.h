@@ -12,15 +12,16 @@ namespace qbert
 	{
 	private:
 		GridEntityManagerComponent* m_pManager;
+
 		GridMovementComponent* m_pMovement;
-		GridInteractionComponent* m_pInteration;
-	private:
-		int m_index;
+		GridInteractionComponent* m_pInteraction;
 	public:
 		virtual ~GridEntityComponent() = default;
-		explicit GridEntityComponent(dae::GameObject& owner, GridEntityManagerComponent& manager,int index);
-		int GetIndex();
+		explicit GridEntityComponent(dae::GameObject& owner, GridEntityManagerComponent& manager);
 
-		bool RequestMove(glm::ivec2 direction);
+		virtual void Start() override;
+		virtual bool RequestMove(glm::ivec2 direction);
+		GridMovementComponent* GetMovement() const;
+		GridInteractionComponent* GetInteration()const;
 	};
 }
