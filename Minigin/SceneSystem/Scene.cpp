@@ -1,15 +1,20 @@
 #include "Scene.h"
 #include "Scene.h"
-#include "Scene.h"
-#include "Scene.h"
 #include <algorithm>
 #include "GameObject.h"
-#include "Scene.h"
-
-using namespace dae;
 
 
-GameObject* Scene::CreateGameObject() 
+
+dae::Scene::Scene(dae::ApplicationContext& context) :
+	m_pAppContext(&context)
+{}
+
+dae::ApplicationContext* dae::Scene::GetAppContext() const
+{
+	return m_pAppContext;
+}
+
+dae::GameObject* dae::Scene::CreateGameObject()
 {
 	auto obj = std::make_unique<dae::GameObject>();
 	auto objPtr = obj.get();
@@ -17,13 +22,13 @@ GameObject* Scene::CreateGameObject()
 	return objPtr;
 }
 
-void Scene::Add(std::unique_ptr<GameObject> object)
+void dae::Scene::Add(std::unique_ptr<dae::GameObject> object)
 {
 	assert(object != nullptr && "Cannot add a null GameObject to the scene.");
 	m_objects.emplace_back(std::move(object));
 }
 
-void Scene::Remove(const GameObject& object)
+void dae::Scene::Remove(const dae::GameObject& object)
 {
 	for (auto& obj : m_objects)
 	{
@@ -34,7 +39,7 @@ void Scene::Remove(const GameObject& object)
 	}
 }
 
-void Scene::RemoveAll()
+void dae::Scene::RemoveAll()
 {
 	m_objects.clear();
 }
@@ -63,7 +68,7 @@ void dae::Scene::Start()
 	}
 }
 
-void Scene::Update()
+void dae::Scene::Update()
 {
 	for(auto& object : m_objects)
 	{
@@ -72,11 +77,10 @@ void Scene::Update()
 	DestroyMarkedObjects();
 }
 
-void Scene::Render() const
+void dae::Scene::Render() const
 {
 	for (const auto& object : m_objects)
 	{
 		object->Render();
 	}
 }
-

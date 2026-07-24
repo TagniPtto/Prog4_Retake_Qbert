@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "../GameObject.h"
+#include "../Application.h"
 
 namespace dae
 {
@@ -12,7 +13,17 @@ namespace dae
 	{
 	private:
 		std::vector<std::unique_ptr<GameObject>> m_objects{};
+		ApplicationContext* m_pAppContext;
 	public:
+
+		explicit Scene(dae::ApplicationContext&);
+		virtual ~Scene() = default;
+		Scene(const Scene& other) = delete;
+		Scene(Scene&& other) = delete;
+		Scene& operator=(const Scene& other) = delete;
+		Scene& operator=(Scene&& other) = delete;
+
+		ApplicationContext* GetAppContext() const;
 		GameObject* CreateGameObject();
 	
 		void Add(std::unique_ptr<GameObject> object);
@@ -27,15 +38,6 @@ namespace dae
 		
 		template<Component T>
 		T* FindComponent() const;
-
-
-		Scene() = default;
-
-		virtual ~Scene() = default;
-		Scene(const Scene& other) = delete;
-		Scene(Scene&& other) = delete;
-		Scene& operator=(const Scene& other) = delete;
-		Scene& operator=(Scene&& other) = delete;
 
 	};
 

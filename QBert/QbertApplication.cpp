@@ -9,7 +9,7 @@ void qbert::QbertApplication::Initialize()
 {
 
 	auto& sceneManager = dae::ServiceLocator<dae::SceneManager>::Get();
-	sceneManager.AddScene(std::make_unique<qbert::Scene01>());
+	sceneManager.AddScene(std::make_unique<qbert::Scene01>(m_context));
 	sceneManager.LoadScene(0);
 
 }

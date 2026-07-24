@@ -5,14 +5,15 @@
 
 namespace qbert
 {
+	
 	class QbertApplicationContext : public dae::ApplicationContext
 	{
 	public:
 		//TODO Make actual event
 		dae::EventDispatcher<int> OnPlayerDeath{};
 		dae::EventDispatcher<int> OnEnemyDeath{};
-
 	};
+	
 	class QbertApplication : public dae::Application
 	{
 	private:

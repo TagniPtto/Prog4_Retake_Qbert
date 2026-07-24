@@ -9,6 +9,10 @@
 #include "../Grid/GridMovementComponent.h"
 
 
+qbert::Scene01::Scene01(dae::ApplicationContext& context):
+	Scene(context)
+{}
+
 void qbert::Scene01::Load()
 {
 
