@@ -3,6 +3,8 @@
 #include <Components/TransformComponent.h>
 #include <glm/vec2.hpp>
 
+#include <EventSystem/EventDispatcher.h>
+
 
 namespace dae {
 	class GameObject;
@@ -23,7 +25,9 @@ namespace qbert {
 		float m_Progress{ 0.f };
 		float m_Speed{ 6.f };
 		bool m_IsMoving{ false };
-
+	public:
+		dae::EventDispatcher<int> OnTileEnter();
+		dae::EventDispatcher<int> OnTileExit();
 	public:
 		virtual ~GridMovementComponent() = default;
 		explicit GridMovementComponent(dae::GameObject& owner, GridComponent& grid);
