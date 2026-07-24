@@ -34,6 +34,7 @@ void qbert::GridMovementComponent::Update()
         m_Progress += dae::Time::Get().GetDeltaTime() * m_Speed;
         const auto tile1Pos = m_pGrid->GetTileWorldLocation(m_FromTile);
         const auto tile2Pos = m_pGrid->GetTileWorldLocation(m_ToTile);
+
         const auto newPosition = InterpolatePosition(tile1Pos, tile2Pos, m_Progress);
         SetPositionWithVisualOffset(newPosition);
         if (m_Progress > 1.0f) {
@@ -61,10 +62,12 @@ void qbert::GridMovementComponent::SetTileIndex(glm::ivec2 pos)
 
 void qbert::GridMovementComponent::MoveBetweenTiles(glm::ivec2 t1, glm::ivec2 t2)
 {
-    m_FromTile = t1;
-    m_ToTile = t2;
-    m_Progress = 0.0f;
-    m_IsMoving = true;
+    if (!m_IsMoving) {
+        m_FromTile = t1;
+        m_ToTile = t2;
+        m_Progress = 0.0f;
+        m_IsMoving = true;
+    }
 }
 
 glm::vec3 qbert::GridMovementComponent::InterpolatePosition(glm::vec3 p1, glm::vec3 p2 , float t)

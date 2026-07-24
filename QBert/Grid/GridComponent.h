@@ -31,6 +31,7 @@ namespace qbert
 
 		void CreateTiles(const nlohmann::json& data);
 		void CreateTile(int x, int y);
+		void CreateEmpty(int x, int y);
 
 	public:
 		~GridComponent() = default;

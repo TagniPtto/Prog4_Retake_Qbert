@@ -3,6 +3,7 @@
 #include "GridComponent.h"
 #include "GridEntityComponent.h"
 #include "GridMovementComponent.h"
+#include <Utils.h>
 
 qbert::GridEntityManagerComponent::GridEntityManagerComponent(dae::GameObject& owner, qbert::GridComponent& grid) :
 	ObjectComponent(owner), m_pGrid(&grid)
@@ -15,9 +16,18 @@ bool qbert::GridEntityManagerComponent::RequestMove(GridEntityComponent* entity,
 
 	bool result{};
 
-	if (auto target = tileIndex + direction; m_pGrid->IsValidTileIndex(target) && !movementComponent->IsMoving()) {
-		movementComponent->MoveBetweenTiles(tileIndex,target);
-		result = true;
+	if (!movementComponent->IsMoving())
+	{
+		if (auto target = tileIndex + direction; m_pGrid->IsValidTileIndex(target)) 
+		{
+			movementComponent->MoveBetweenTiles(tileIndex, target);
+			result = true;
+		}
+		else 
+		{
+			LOGLN("Not a valid tile");
+		}
+
 	}
 	return result;
 }

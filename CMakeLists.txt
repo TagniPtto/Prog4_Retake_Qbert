@@ -200,8 +200,8 @@ add_library(${ENGINE_NAME} STATIC
   "Minigin/Components/TextComponent.cpp"
   "Minigin/Components/AnimationComponent.cpp"
 
-  "Minigin/EventSystem/Subject.cpp" 
-  "Minigin/EventSystem/EventQueue.cpp"
+   
+  
   
   "Minigin/InputSystem/InputManager.cpp"
   "Minigin/InputSystem/Gamepad/XBoxControllerImpl.cpp"
@@ -213,7 +213,7 @@ add_library(${ENGINE_NAME} STATIC
   "Minigin/SoundSystem/SDLSoundSystem.cpp"
   "Minigin/SoundSystem/SDLLoggingSoundSystem.cpp"
  
-  )
+    "Minigin/Application.cpp")
 
 
 target_include_directories("${ENGINE_NAME}" PUBLIC
@@ -237,22 +237,24 @@ target_link_libraries("${ENGINE_NAME}" PUBLIC
 
 #_______________________EXECUTABLE_______________________
 add_executable(${APP_NAME} ${APP_PARAM}
-    "QBert/Main.cpp"
-    "QBert/Grid/GridComponent.cpp"
-    "QBert/Grid/GridEntityComponent.cpp"
-    "QBert/Grid/GridMovementComponent.cpp"
-    "QBert/Grid/GridInteractionComponent.cpp" 
+    "Qbert/Main.cpp"
+    "Qbert/QbertApplication.cpp"
+
+    "Qbert/Grid/GridComponent.cpp"
+    "Qbert/Grid/GridEntityComponent.cpp"
+    "Qbert/Grid/GridMovementComponent.cpp"
+    "Qbert/Grid/GridInteractionComponent.cpp" 
+    "Qbert/Grid/GridEntityManagerComponent.cpp"
     
-    
-    "QBert/Player/PlayerControllerComponent.cpp"
-     
+    "Qbert/Player/PlayerControllerComponent.cpp"
     #"QBert/Player/PlayerStateComponent.cpp"
     #"QBert/Player/PlayerState.cpp"
 
-    "QBert/Menu/MenuStateComponent.cpp" 
-    "QBert/Levels/Level01.cpp" 
-    "QBert/Levels/LevelManager.cpp"
-    "QBert/Scenes/Scene01.cpp" "QBert/Grid/GridEntityManagerComponent.cpp")
+    "Qbert/Menu/MenuStateComponent.cpp" 
+    "Qbert/Levels/Level01.cpp" 
+    "Qbert/Levels/LevelManager.cpp"
+    "Qbert/Scenes/Scene01.cpp"
+)
 target_link_libraries(${APP_NAME} PRIVATE ${ENGINE_NAME})
 #________________________________________________________
 

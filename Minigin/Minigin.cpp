@@ -24,7 +24,7 @@
 #include "SceneSystem/SceneManager.h"
 #include "ResourceSystem/ResourceManager.h"
 #include "SoundSystem/SDLLoggingSoundSystem.h"
-#include "EventSystem/EventQueue.h"
+#include "EventSystem/EventDispatcher.h"
 
 #include "Components/AnimationComponent.h"
 #include "Components/RenderComponent.h"
@@ -87,7 +87,6 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath) :
 	m_pSceneManager(new dae::SceneManager()),
 	m_pInputManager(new dae::InputManager()),
 	m_pSoundSystem(nullptr),
-	m_pEventQueue(new dae::EventQueue()),
 	m_pRenderer(new dae::Renderer())
 {
 
@@ -126,7 +125,6 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath) :
 
 
 	ServiceLocator<dae::ISoundSystem>	::Register(m_pSoundSystem.get());
-	ServiceLocator<dae::EventQueue>		::Register(m_pEventQueue.get());
 	ServiceLocator<dae::InputManager>	::Register(m_pInputManager.get());
 	ServiceLocator<dae::SceneManager>	::Register(m_pSceneManager.get());
 	ServiceLocator<dae::ResourceManager>::Register(m_pResourceManager.get());
@@ -135,16 +133,18 @@ dae::Minigin::Minigin(const std::filesystem::path& dataPath) :
 
 dae::Minigin::~Minigin()
 {
-	m_pSoundSystem.reset();
+	m_pSoundSystem.reset(); //Shutdown sdl sound before shutting down sdl
 	m_pRenderer->Destroy();
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
 	SDL_Quit();
 }
 
-void dae::Minigin::Run(const std::function<void()>& load)
+void dae::Minigin::Run(std::unique_ptr<Application> application)
 {
-	load();
+	m_pApplication = std::move(application);
+	m_pApplication->Initialize();
+
 	m_pSceneManager->Start();
 
 #ifndef __EMSCRIPTEN__
@@ -176,7 +176,6 @@ void dae::Minigin::Run(const std::function<void()>& load)
 void dae::Minigin::RunOneFrame()
 {
 	m_quit = !m_pInputManager->ProcessInput();
-	m_pEventQueue->DispatchEvents();
 	m_pSceneManager->Update();
 	m_pRenderer->Render();
 }

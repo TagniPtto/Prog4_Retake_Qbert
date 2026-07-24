@@ -1,12 +1,9 @@
 #pragma once
 
-#include "EventSystem/Subject.h"
-
-
 namespace dae {
 	class GameObject;
 
-	class ObjectComponent : public Subject
+	class ObjectComponent
 	{
 	private:
 		dae::GameObject* m_owner;

@@ -1,7 +1,6 @@
 #include "GridComponent.h"
 
 #include <ServiceLocator.h>
-#include <EventSystem/EventQueue.h>
 #include <SceneSystem/SceneManager.h>
 #include <SceneSystem/Scene.h>
 #include <Components/RenderComponent.h>
@@ -62,9 +61,9 @@ void qbert::GridComponent::Update()
 
 void qbert::GridComponent::CreateTile(int x , int y)
 {
+
 	dae::Scene* currentScene = dae::ServiceLocator<dae::SceneManager>::Get().GetActiveScene();
 	if (!currentScene) return;
-
 	constexpr float xOffset{ tilePixelSizeX * 0.5f};
 	constexpr float yOffset{ tilePixelSizeY * 0.75f};
 	const float xPos{ float(x * m_tileSize * xOffset - y * m_tileSize * xOffset) };
@@ -81,6 +80,22 @@ void qbert::GridComponent::CreateTile(int x , int y)
 	m_tiles[y*m_tileXCount + x] = obj;
 }
 
+void qbert::GridComponent::CreateEmpty(int x, int y)
+{
+	dae::Scene* currentScene = dae::ServiceLocator<dae::SceneManager>::Get().GetActiveScene();
+	if (!currentScene) return;
+	constexpr float xOffset{ tilePixelSizeX * 0.5f };
+	constexpr float yOffset{ tilePixelSizeY * 0.75f };
+	const float xPos{ float(x * m_tileSize * xOffset - y * m_tileSize * xOffset) };
+	const float yPos{ float(x * m_tileSize * yOffset + y * m_tileSize * yOffset) };
+
+	auto obj = currentScene->CreateGameObject();
+	obj->SetParent(GetOwner());
+	obj->GetTransform()->SetLocalPosition(xPos, yPos);
+
+	m_tiles[y * m_tileXCount + x] = obj;
+}
+
 void qbert::GridComponent::CreateTiles(const nlohmann::json& data)
 {
 	const auto tiles = data["tiles"];
@@ -92,6 +107,10 @@ void qbert::GridComponent::CreateTiles(const nlohmann::json& data)
 			if (tiles[y][x] == 1)
 			{
 				CreateTile(x,y);
+			}
+			if (tiles[y][x] == 0) 
+			{
+
 			}
 		}
 	}
