@@ -30,7 +30,7 @@ namespace dae
 		void EnqueueEvent(const Event& event) {
 			m_eventQueue.push(event);
 		}
-		void ProcessEventQueue(const Event& event)
+		void ProcessEventQueue()
 		{
 			while (!m_eventQueue.empty()) 
 			{
