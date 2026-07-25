@@ -67,7 +67,15 @@ void qbert::GridComponent::CreateTile(int x , int y)
 	case 1:
 	{
 		const auto renderComp = emptyObj->AddComponent<dae::RenderComponent>("Qbert Cubes.png");
-		renderComp->SetSourceRectangle(0.0f, 0.0f, tilePixelSizeX, tilePixelSizeY);
+		
+		dae::FrameSequence fs{};
+		fs.definition.columns = 1;
+		fs.definition.rows = 3;
+		fs.definition.sequenceLength = 3;
+		fs.definition.sequenceStart = 0;
+		fs.definition.sourceRectangle = { tilePixelSizeX, 0.0f, tilePixelSizeX, tilePixelSizeY*3 };
+
+		emptyObj->AddComponent<dae::SequenceComponent>(fs);
 		renderComp->SetDestinationRectangle(0.0f, 0.0f, float(tilePixelSizeX * m_tileSize), float(tilePixelSizeY * m_tileSize));
 		tileComponent = emptyObj->AddComponent<GridTileComponent>();
 	}break;

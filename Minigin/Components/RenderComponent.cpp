@@ -10,26 +10,26 @@
 
 #include <chrono>
 namespace dae {
-	RenderComponent::Rect RenderComponent::GetSourceRectangle() const
+	Rect RenderComponent::GetSourceRectangle() const
 	{
 		return m_srcRectangle;
 	}
-	RenderComponent::Rect RenderComponent::GetDesitionationRectangle() const
+	Rect RenderComponent::GetDesitionationRectangle() const
 	{
 		return m_dstRectangle;
 	}
 	void RenderComponent::SetSourceRectangle(float x, float y, float width, float height)
 	{
-		m_srcRectangle.x = x;
-		m_srcRectangle.y = y;
+		m_srcRectangle.left = x;
+		m_srcRectangle.top = y;
 		m_srcRectangle.width = width;
 		m_srcRectangle.height = height;
 	}
 
 	void RenderComponent::SetDestinationRectangle(float x, float y, float width, float height)
 	{
-		m_dstRectangle.x = x;
-		m_dstRectangle.y = y;
+		m_dstRectangle.left = x;
+		m_dstRectangle.top = y;
 		m_dstRectangle.width = width;
 		m_dstRectangle.height = height;
 	}
@@ -70,13 +70,13 @@ namespace dae {
 			auto worldRot = transform->GetWorldRotation();
 			ServiceLocator<Renderer>::Get().RenderTexture(
 				*m_texture, 
-				m_srcRectangle.x,
-				m_srcRectangle.y,
+				m_srcRectangle.left,
+				m_srcRectangle.top,
 				m_srcRectangle.width,
 				m_srcRectangle.height,
 
-				m_dstRectangle.x + worldPos.x,
-				m_dstRectangle.y + worldPos.y,
+				m_dstRectangle.left + worldPos.x,
+				m_dstRectangle.top + worldPos.y,
 				m_dstRectangle.width,
 				m_dstRectangle.height,
 

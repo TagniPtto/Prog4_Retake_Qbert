@@ -1,6 +1,7 @@
 #pragma once
 #include "ITileComponent.h"
-#include <Components/AnimationComponent.h>
+#include <Components/SequenceComponent.h>
+
 
 namespace qbert
 {
@@ -15,6 +16,7 @@ namespace qbert
 		virtual void OnTileExit() override;
 
 	private:
-
+		dae::RenderComponent* m_pRenderComponent;
+		dae::SequenceComponent* m_pSequenceComponent;
 	};
 }

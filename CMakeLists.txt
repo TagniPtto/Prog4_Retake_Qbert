@@ -199,6 +199,7 @@ add_library(${ENGINE_NAME} STATIC
   "Minigin/Components/RotationComponent.cpp"
   "Minigin/Components/TextComponent.cpp"
   "Minigin/Components/AnimationComponent.cpp"
+  "Minigin/Components/SequenceComponent.cpp"
 
    
   

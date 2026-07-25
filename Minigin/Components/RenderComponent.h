@@ -4,26 +4,22 @@
 #include <memory>
 
 
-namespace dae {
-
+namespace dae
+{
+	struct Rect {
+		float left;
+		float top;
+		float width;
+		float height;
+	};
 	class RenderComponent : public ObjectComponent
 	{
-	public:
-		struct Rect {
-			float x;
-			float y;
-			float width;
-			float height;
-		};
 	private:
 		std::shared_ptr<dae::Texture2D> m_texture;
 
 		Rect m_srcRectangle{};
 		Rect m_dstRectangle{};
-
 	public:
-
-		
 		Rect GetSourceRectangle()const;
 		Rect GetDesitionationRectangle()const;
 		
@@ -31,8 +27,6 @@ namespace dae {
 		void SetDestinationRectangle(float x , float y , float width, float height);
 		void SetSourceRectangle(Rect src);
 		void SetDestinationRectangle(Rect dst);
-
-
 
 		RenderComponent(dae::GameObject& owner, const std::string& filename = "");
 
