@@ -6,6 +6,9 @@ qbert::GridTileComponent::GridTileComponent(dae::GameObject& owner):
 {
 }
 
+void qbert::GridTileComponent::Start()
+{}
+
 void qbert::GridTileComponent::OnTileEnter()
 {
 	LOGLN("Entering GridTile");
