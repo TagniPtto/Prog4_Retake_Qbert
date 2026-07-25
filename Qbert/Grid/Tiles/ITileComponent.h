@@ -1,7 +1,6 @@
 #pragma once
 
-#include <components/ObjectComponent.h>
-
+#include <Components/ObjectComponent.h>
 
 namespace qbert 
 {
