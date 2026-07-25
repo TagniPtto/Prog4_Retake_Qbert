@@ -1,4 +1,5 @@
 #include "ITileComponent.h"
+#include <EventSystem/EventDispatcher.h>
 
 namespace qbert {
 	class GridVoidComponent : public ITileComponent
@@ -9,5 +10,7 @@ namespace qbert {
 
 		virtual void OnTileEnter() override;
 		virtual void OnTileExit() override;
+	public:
+		dae::EventDispatcher<int> OnEnterVoid;
 	};
 }

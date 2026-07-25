@@ -25,7 +25,7 @@ void dae::AnimationComponent::AddAnimationSequence(const std::string& name, cons
 }
 
 dae::AnimationSequence::AnimationSequence(const FrameSequence& sequence, float timePerFrame, AnimationPlayBack playback) :
-	m_sequence(sequence),m_timePerFrame(timePerFrame), m_playback(playback)
+	m_sequence(sequence), m_playback(playback),m_timePerFrame(timePerFrame)
 {}
 
 void dae::AnimationSequence::Update(float deltaTime)

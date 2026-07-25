@@ -9,7 +9,6 @@ namespace qbert
         glm::ivec2 exitedTile;
         glm::ivec2 enteredTile;
     };
-
     class GridEntityComponent;
     struct OverlapEvent 
     {

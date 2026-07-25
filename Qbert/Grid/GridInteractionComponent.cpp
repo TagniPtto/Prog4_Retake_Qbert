@@ -28,7 +28,6 @@ void qbert::GridInteractionComponent::Start()
 
 void qbert::GridInteractionComponent::OnMoveEnter(const MoveEvent& event)
 {
-	LOGLN("Entering Move");
 	const auto manager = m_pEntityComponent->GetEntityManager();
 
 	auto entities = manager->GetEntitiesAt(event.exitedTile);
@@ -44,7 +43,6 @@ void qbert::GridInteractionComponent::OnMoveEnter(const MoveEvent& event)
 
 void qbert::GridInteractionComponent::OnMoveExit(const MoveEvent & event)
 {
-	LOGLN("Exiting Move");
 	const auto manager = m_pEntityComponent->GetEntityManager();
 
 	auto entities = manager->GetEntitiesAt(event.enteredTile);
