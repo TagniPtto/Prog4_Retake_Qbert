@@ -17,7 +17,6 @@ namespace qbert
 	public:
 		dae::EventDispatcher<int> OnTileChange;
 	private:
-		dae::RenderComponent* m_pRenderComponent;
 		dae::SequenceComponent* m_pSequenceComponent;
 	};
 }
