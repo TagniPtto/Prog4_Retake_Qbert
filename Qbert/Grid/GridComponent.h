@@ -1,5 +1,5 @@
 #pragma once
-#include "Components/ObjectComponent.h"
+#include <Components/ObjectComponent.h>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <vector>
@@ -23,7 +23,7 @@ namespace qbert
 
 		int m_tileSize{};
 
-		std::vector<ITileComponent*>	m_tiles;
+		std::vector<ITileComponent*> m_tiles;
 		std::vector<std::vector<int>> m_tileInfo;
 	public:
 		ITileComponent* GetTile(glm::ivec2 index)const;
