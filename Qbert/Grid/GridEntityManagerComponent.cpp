@@ -9,6 +9,35 @@ qbert::GridEntityManagerComponent::GridEntityManagerComponent(dae::GameObject& o
 	ObjectComponent(owner), m_pGrid(&grid)
 {}
 
+std::vector<qbert::GridEntityComponent*> qbert::GridEntityManagerComponent::GetEntitiesAt(glm::ivec2 index) const
+{
+	auto result = std::vector<GridEntityComponent*>();
+	if (m_pGrid->IsValidTileIndex(index))
+	{
+		for (auto it = m_pEntities.begin(); it != m_pEntities.end(); ++it)
+		{
+			if ((*it)->GetMovement()->GetCurrentTileIndex() == index) 
+			{
+				result.push_back(*it);
+			}
+		}
+	}
+	return result;
+}
+
+qbert::GridComponent* qbert::GridEntityManagerComponent::GetGridComponent() const
+{
+	return m_pGrid;
+}
+
+void qbert::GridEntityManagerComponent::RegisterEntity(GridEntityComponent* entity)
+{
+	if (std::find(m_pEntities.begin(), m_pEntities.end(),entity) != m_pEntities.end())
+	{
+		m_pEntities.push_back(entity);
+	}
+}
+
 bool qbert::GridEntityManagerComponent::RequestMove(GridEntityComponent* entity, glm::ivec2 direction)
 {
 	const auto movementComponent = entity->GetMovement();

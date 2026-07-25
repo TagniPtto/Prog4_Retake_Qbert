@@ -35,12 +35,11 @@ void qbert::Scene01::Load()
 		renderComponent->SetSourceRectangle(0, 0, 16, 16);
 		renderComponent->SetDestinationRectangle(0, 0, 32, 32);
 		player->AddComponent<qbert::PlayerControllerComponent>();
-		player->AddComponent<qbert::GridEntityComponent>(*gridEntityManagerComponent);
-		player->AddComponent<qbert::GridMovementComponent>(*gridComponent);
+		auto entityComponent = player->AddComponent<qbert::GridEntityComponent>(*gridEntityManagerComponent);
+		gridEntityManagerComponent->RegisterEntity(entityComponent);
+		auto mov = player->AddComponent<qbert::GridMovementComponent>(*gridComponent);
+		mov->SetCurrentTileIndex({1,1});
 		player->AddComponent<qbert::GridInteractionComponent>();
 	}
-
-	 
-	//gridComp->AttachToGrid(player,0,0);
 
 }

@@ -37,12 +37,13 @@ void qbert::GridMovementComponent::Update()
 
         const auto newPosition = InterpolatePosition(tile1Pos, tile2Pos, m_Progress);
         SetPositionWithVisualOffset(newPosition);
-        if (m_Progress > 1.0f) {
+        if (m_Progress > 1.0f) 
+        {
             m_IsMoving = false;
             m_CurrentTile = m_ToTile;
             SetPositionWithVisualOffset(m_pGrid->GetTileWorldLocation(m_CurrentTile));
-            //TODO Let Tiles know its been entered and exited . maybe use events here
 
+            OnMoveExited.BroadCast(MoveEvent{ m_FromTile,m_ToTile });
         }
     }
 }
@@ -54,19 +55,23 @@ void qbert::GridMovementComponent::SetPositionWithVisualOffset(glm::vec3 tilePos
     m_pTransform->SetLocalPosition(tilePosition);
 }
 
-void qbert::GridMovementComponent::SetTileIndex(glm::ivec2 pos)
+void qbert::GridMovementComponent::SetCurrentTileIndex(glm::ivec2 pos)
 {
     m_pGrid->IsValidTileIndex(pos);
-
+    m_CurrentTile = pos;
 }
+
 
 void qbert::GridMovementComponent::MoveBetweenTiles(glm::ivec2 t1, glm::ivec2 t2)
 {
-    if (!m_IsMoving) {
+    if (!m_IsMoving) 
+    {
         m_FromTile = t1;
         m_ToTile = t2;
         m_Progress = 0.0f;
         m_IsMoving = true;
+
+        OnMoveEntered.BroadCast(MoveEvent{ m_FromTile,m_ToTile });
     }
 }
 

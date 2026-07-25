@@ -2,17 +2,26 @@
 
 #include <Components/ObjectComponent.h>
 #include <glm/vec2.hpp>
+#include "GridEvents.h"
+#include "GridEntityComponent.h"
 
-namespace qbert {
+namespace qbert 
+{
 	class GridComponent;
 
-	class GridInteractionComponent : public dae::ObjectComponent {
+	class GridInteractionComponent : public dae::ObjectComponent 
+	{
 	private:
-		GridComponent* m_pGridComp{};
+		GridEntityComponent* m_pEntityComponent;
 	public:
 		virtual ~GridInteractionComponent() = default;
 		explicit GridInteractionComponent(dae::GameObject& owner);
+		void Start() override;
+	private:
+		void OnMoveEnter(const MoveEvent& event);
+		void OnMoveExit(const MoveEvent& event);
 
-		void CheckInteraction();
+		void OnOverlapEnter(const OverlapEvent& event);
+		void OnOverlapExit(const OverlapEvent& event);
 	};
 }

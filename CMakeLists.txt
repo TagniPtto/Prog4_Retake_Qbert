@@ -245,7 +245,10 @@ add_executable(${APP_NAME} ${APP_PARAM}
     "Qbert/Grid/GridMovementComponent.cpp"
     "Qbert/Grid/GridInteractionComponent.cpp" 
     "Qbert/Grid/GridEntityManagerComponent.cpp"
-    
+    "Qbert/Grid/Tiles/GridFloatingDiscComponent.cpp"
+    "Qbert/Grid/Tiles/GridTileComponent.cpp" 
+    "Qbert/Grid/Tiles/GridVoidComponent.cpp"
+
     "Qbert/Player/PlayerControllerComponent.cpp"
     #"QBert/Player/PlayerStateComponent.cpp"
     #"QBert/Player/PlayerState.cpp"

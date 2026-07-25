@@ -20,8 +20,8 @@ namespace qbert
 		explicit GridEntityComponent(dae::GameObject& owner, GridEntityManagerComponent& manager);
 
 		virtual void Start() override;
-		virtual bool RequestMove(glm::ivec2 direction);
 		GridMovementComponent* GetMovement() const;
 		GridInteractionComponent* GetInteration()const;
+		GridEntityManagerComponent* GetEntityManager()const;
 	};
 }

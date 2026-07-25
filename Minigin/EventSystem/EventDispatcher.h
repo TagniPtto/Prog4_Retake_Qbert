@@ -9,7 +9,7 @@ namespace dae
 	class EventDispatcher 
 	{
 	public:
-		using CallbackFn = std::function<void(Event)>;
+		using CallbackFn = std::function<void(const Event&)>;
 	private:
 		std::vector<CallbackFn> m_listeners;
 		std::queue<Event> m_eventQueue;

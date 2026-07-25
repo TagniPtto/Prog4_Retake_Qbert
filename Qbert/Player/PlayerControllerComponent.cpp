@@ -11,6 +11,7 @@
 #include <TimeManager.h>
 #include <Utils.h>
 #include "../Grid/GridEntityComponent.h"
+#include "../Grid/GridEntityManagerComponent.h"
 namespace qbert 
 {
 	class GridEntityMoveCommand : public dae::IInputCommand 
@@ -25,7 +26,7 @@ namespace qbert
 		virtual ~GridEntityMoveCommand() = default;
 		void Execute(dae::InputContext) override
 		{
-			entityComponent->RequestMove(direction);
+			entityComponent->GetEntityManager()->RequestMove(entityComponent, direction);
 		}
 	};
 	class MoveCommand : public dae::IInputCommand {

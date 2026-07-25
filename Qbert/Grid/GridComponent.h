@@ -8,6 +8,7 @@
 #include <nlohmann/json.hpp>
 
 #include "GridEvents.h"
+#include "Tiles/ITileComponent.h"
 
 namespace qbert 
 {
@@ -22,22 +23,20 @@ namespace qbert
 
 		int m_tileSize{};
 
-		std::vector<dae::GameObject*>	m_tiles;
+		std::vector<ITileComponent*>	m_tiles;
+		std::vector<std::vector<int>> m_tileInfo;
 	public:
-		dae::GameObject* GetTileObject(glm::ivec2 index)const;
+		ITileComponent* GetTile(glm::ivec2 index)const;
 		glm::vec3 GetTileWorldLocation(glm::ivec2 index)const;
 		glm::ivec2 GetClosestValidTile(glm::ivec2 index)const;
 		bool IsValidTileIndex(glm::ivec2 index) const;
 
-		void CreateTiles(const nlohmann::json& data);
+		void CreateTiles();
 		void CreateTile(int x, int y);
-		void CreateEmpty(int x, int y);
+		dae::GameObject* CreateEmpty(int x, int y);
 
 	public:
 		~GridComponent() = default;
 		explicit GridComponent(dae::GameObject& owner, const std::string& path);
-
-	public: 
-		void Update() override;
 	};
 }

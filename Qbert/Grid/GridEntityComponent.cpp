@@ -24,11 +24,6 @@ void qbert::GridEntityComponent::Start()
 		LOGLN("No Grid Interaction componnet on this object");
 	}
 }
-bool qbert::GridEntityComponent::RequestMove(glm::ivec2 direction)
-{
-	return 	m_pManager->RequestMove(this, direction);
-}
-
 qbert::GridMovementComponent* qbert::GridEntityComponent::GetMovement() const
 {
 	return m_pMovement;
@@ -37,5 +32,10 @@ qbert::GridMovementComponent* qbert::GridEntityComponent::GetMovement() const
 qbert::GridInteractionComponent* qbert::GridEntityComponent::GetInteration() const
 {
 	return m_pInteraction;
+}
+
+qbert::GridEntityManagerComponent* qbert::GridEntityComponent::GetEntityManager() const
+{
+	return m_pManager;
 }
 

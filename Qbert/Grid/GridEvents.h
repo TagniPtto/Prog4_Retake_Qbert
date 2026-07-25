@@ -1,31 +1,19 @@
 #pragma once
 
-#include <EventSystem/Events/Event.h>
+#include <glm/vec2.hpp>
 
 namespace qbert
 {
-    //struct TileEnteredEvent : public dae::Event
-    //{
-    //    Entity entity;
-    //    Tile* tile;
-    //};
+    struct MoveEvent
+    {
+        glm::ivec2 exitedTile;
+        glm::ivec2 enteredTile;
+    };
 
-    //struct TileExitedEvent : public dae::Event
-    //{
-    //    Entity entity;
-    //    Tile* tile;
-    //};
-
-    //struct GridCollisionEvent : public dae::Event
-    //{
-    //    Entity first;
-    //    Entity second;
-    //    Tile* tile;
-    //};
-
-    //struct FellOffGridEvent : public dae::Event
-    //{
-    //    Entity entity;
-    //    GridCoord fromTile;
-    //};
+    class GridEntityComponent;
+    struct OverlapEvent 
+    {
+        GridEntityComponent* other;
+        glm::ivec2 overlappingLocation;
+    };
 }
